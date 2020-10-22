@@ -1,17 +1,23 @@
 import tkinter as tk
+import os
+from user_control import User, getUserData, userObjects
 
-from user_control import User
-
+######### Environment Variables ##########
 HEIGHT = 700
 WIDTH = 800
-
 root = tk.Tk()
-#global 
-userObjects = []
+
+
+
+
+
+########## Functionality ##########
+
+getUserData()
 
 # create_user
 def create_user(username, password, label):
-    if not username:                                    #Checks if password and username were entered
+    if not username:                                         #Checks if password and username were entered
         label['text'] = "Please Enter a username"
         return
     if not password:
@@ -36,7 +42,32 @@ def create_user(username, password, label):
         print(user.getName())
     
     label['text'] = "User Has Been Created"
+
+# login function
+def login(username, password, label):
+    i = 0
+
+    if(len(userObjects) == 0):                               #determines if users even exist           
+        label['text'] = 'This User Does Not Exist'
+        return
+
+    while(i < len(userObjects)):
+        if userObjects[i].getName() == username and userObjects[i].getPassword() == password:
+            label['text'] = 'Login Successful'
+            homepage_window()
+            return
+        elif userObjects[i].getName() == username and userObjects[i].getPassword() != password:
+            label['text'] = 'The Password You Entered Is Incorrect'
+            return
+        elif i == (len(userObjects) - 1):
+            label['text'] = 'This User Does Not Exist'
+            return
+        else:
+            i += 1
     
+
+########## Front End ##########
+
 #pacing_modes_window
 def pacing_modes_window():
     pacing_modes_window = tk.Toplevel(root, height = HEIGHT, width = WIDTH)
@@ -65,22 +96,6 @@ def homepage_window():
     pace_now = tk.Button(homepage_window, text = "Pace Now", font = 96, command = lambda: pacing_modes_window())
     pace_now.place(relx = 0.5, rely = 0.9, relwidth = 0.30, relheight = 0.10, anchor = 'n')
 
-# login function
-def login(username, password, label):
-    i = 0
-    while(i < len(userObjects)):
-        if userObjects[i].getName() == username and userObjects[i].getPassword() == password:
-            label['text'] = 'Login Successful'
-            homepage_window()
-            return
-        elif userObjects[i].getName() == username and userObjects[i].getPassword() != password:
-            label['text'] = 'The Password You Entered Is Incorrect'
-            return
-        elif i == (len(userObjects) - 1):
-            label['text'] = 'This User Does Not Exist'
-            return
-        else:
-            i += 1
 
 #register
 def register_window():
