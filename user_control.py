@@ -6,19 +6,18 @@ class User:
     def __init__(self, username, password):
         self.username = username
         self.password = password
-
-    # user data
-    lower_rate = 0
-    upper_rate = 0
-    atrial_amplitude = 0
-    atrial_pulse_width = 0
-    ventricular_amplitude = 0
-    ventricular_pulse_width = 0
-    VRP = 0
-    ARP = 0
+        # user data
+        self.lower_rate = 0
+        self.upper_rate = 0
+        self.atrial_amplitude = 0
+        self.atrial_pulse_width = 0
+        self.ventricular_amplitude = 0
+        self.ventricular_pulse_width = 0
+        self.VRP = 0
+        self.ARP = 0
 
     # getters
-    def getName(self):
+    def getUsername(self):
         return self.username
 
     def getPassword(self):
@@ -66,7 +65,6 @@ class User:
 
     def setARP(self, value):
         self.ARP = value
-
 
     # methods
     def storeUser(self):
@@ -151,16 +149,16 @@ def getUserData():
                 elif "ARP: " in line:
                     ARP = line.split(":")[-1].strip()
             
-            print(username)
-            print(password)
-            print(lower_rate)
-            print(upper_rate)
-            print(atrial_amplitude)
-            print(atrial_pulse_width)
-            print(ventricular_amplitude)
-            print(ventricular_pulse_width)
-            print(VRP)
-            print(ARP)
+            # print(username)
+            # print(password)
+            # print(lower_rate)
+            # print(upper_rate)
+            # print(atrial_amplitude)
+            # print(atrial_pulse_width)
+            # print(ventricular_amplitude)
+            # print(ventricular_pulse_width)
+            # print(VRP)
+            # print(ARP)
 
             oldUser = User(username, password)
             userObjects.append(oldUser)

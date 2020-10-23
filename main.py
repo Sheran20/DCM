@@ -8,12 +8,9 @@ WIDTH = 800
 root = tk.Tk()
 
 
-
-
-
 ########## Functionality ##########
 
-getUserData()
+getUserData()                         #get users data from database on application boot
 
 # create_user
 def create_user(username, password, label):
@@ -29,7 +26,7 @@ def create_user(username, password, label):
         return
     
     for user in userObjects:
-        if username == user.getName():
+        if username == user.getUsername():
             label['text'] = "User already exists"
             return
     
@@ -39,7 +36,7 @@ def create_user(username, password, label):
 
     print("Current users are: ")
     for user in userObjects:
-        print(user.getName())
+        print(user.getUsername())
     
     label['text'] = "User Has Been Created"
 
@@ -52,11 +49,11 @@ def login(username, password, label):
         return
 
     while(i < len(userObjects)):
-        if userObjects[i].getName() == username and userObjects[i].getPassword() == password:
+        if userObjects[i].getUsername() == username and userObjects[i].getPassword() == password:
             label['text'] = 'Login Successful'
             homepage_window()
             return
-        elif userObjects[i].getName() == username and userObjects[i].getPassword() != password:
+        elif userObjects[i].getUsername() == username and userObjects[i].getPassword() != password:
             label['text'] = 'The Password You Entered Is Incorrect'
             return
         elif i == (len(userObjects) - 1):
@@ -96,7 +93,6 @@ def homepage_window():
     pace_now = tk.Button(homepage_window, text = "Pace Now", font = 96, command = lambda: pacing_modes_window())
     pace_now.place(relx = 0.5, rely = 0.9, relwidth = 0.30, relheight = 0.10, anchor = 'n')
 
-
 #register
 def register_window():
 
@@ -124,7 +120,7 @@ def register_window():
     label_response.place(relx = 0.5, rely = 0.65, relwidth = 0.5, relheight = 0.05, anchor = 'n')
 
 
-#Main Window
+########### Main/Root Window ##########
 canvas = tk.Canvas(root, height = HEIGHT, width = WIDTH)
 canvas.pack()
 
