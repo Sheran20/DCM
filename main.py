@@ -1,6 +1,6 @@
 import tkinter as tk
 import os
-from user_control import User, getUserData, userObjects
+from user_control import User, getUserData, userObjects, updateUser
 
 ######### Environment Variables ##########
 HEIGHT = 700
@@ -62,6 +62,7 @@ def login(username, password, label):
         else:
             i += 1
     
+updateUser("bob", "lower_rate", 10)
 
 ########## Front End ##########
 

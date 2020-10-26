@@ -1,6 +1,6 @@
 username: bob
 password: yeet
-lower_rate: 1
+lower_rate: 10
 upper_rate: 2
 atrial_amplitude: 3
 atrial_pulse_width: 4

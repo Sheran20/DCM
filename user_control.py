@@ -15,6 +15,8 @@ class User:
         self.ventricular_pulse_width = 0
         self.VRP = 0
         self.ARP = 0
+        self.file_directory = os.getcwd() + "\\users" +"\\" + username + ".txt"
+        self.userData = ["username","password","lower_rate","upper_rate","atrial_amplitude","atrial_pulse_width","ventricular_amplitude","ventricular_pulse_width", "VRP", "ARP"]
 
     # getters
     def getUsername(self):
@@ -22,6 +24,9 @@ class User:
 
     def getPassword(self):
         return self.password   
+
+    def getLowerRate(self):
+        return self.lower_rate
 
     def getUpperRate(self):
         return self.upper_rate
@@ -43,11 +48,14 @@ class User:
 
     def getARP(self):
         return self.ARP
-    
+
     #setters
+    def setLowerRate(self, value):
+        self.lower_rate = value
+
     def setUpperRate(self, value):
         self.upper_rate = value
-
+            
     def setAtrialAmplitude(self, value):
         self.atrial_amplitude = value
 
@@ -100,6 +108,21 @@ class User:
         path = os.getcwd()
         print(path)
         os.rename(path + "\\" + textFile, path + "\\users" + "\\" + textFile)
+
+    def userUpdate(self, field, value):
+        
+        if field not in self.userData:                                  #check if the specified field exists
+            print("Field does not exist")
+            return
+    
+        i = self.userData.index(field)
+        f = open(self.file_directory, "r")
+        data = f.readlines()
+        data[i] = field + ": " + str(value) + "\n"              #change the line specified
+
+        f = open(self.file_directory, "w")
+        f.writelines(data)
+        f.close
 
     def deleteUser(self):
         textFile = self.username + ".txt"
@@ -165,3 +188,14 @@ def getUserData():
 
         else:
             print("No current users")
+
+# update user info 
+def updateUser(username, field, value):
+    i = 0
+    while(i < len(userObjects)):
+        if userObjects[i].getUsername() == username:
+            userObjects[i].userUpdate(field,value)      #calls class method userUpdate
+            return
+        elif i == (len(userObjects) - 1):
+            return
+        i += 1
