@@ -10,7 +10,9 @@ root = tk.Tk()
 
 ########## Functionality ##########
 
-getUserData()                         #get users data from database on application boot
+getUserData()                        #get users data from database on application boot
+
+current_user = None                  #set an empty class instance for the current user of application
 
 # create_user
 def create_user(username, password, label):
@@ -50,9 +52,11 @@ def login(username, password, label):
 
     while(i < len(userObjects)):
         if userObjects[i].getUsername() == username and userObjects[i].getPassword() == password:
-            label['text'] = 'Login Successful'
+            label['text'] = 'Login Successful'               
+            global current_user                    #set the current user
+            current_user = userObjects[i]
             homepage_window()
-            return
+            return 
         elif userObjects[i].getUsername() == username and userObjects[i].getPassword() != password:
             label['text'] = 'The Password You Entered Is Incorrect'
             return
@@ -61,8 +65,7 @@ def login(username, password, label):
             return
         else:
             i += 1
-    
-updateUser("bob", "lower_rate", 10)
+
 
 ########## Front End ##########
 
@@ -88,11 +91,25 @@ def pacing_modes_window():
 
 #homepage_window
 def homepage_window():
+    print(current_user.getUsername())
+    current_user.userUpdate("upper_rate", 123)
     homepage_window = tk.Toplevel(root, height = HEIGHT, width = WIDTH)
     homepage_window.configure(background = '#551033')
-
     pace_now = tk.Button(homepage_window, text = "Pace Now", font = 96, command = lambda: pacing_modes_window())
     pace_now.place(relx = 0.5, rely = 0.9, relwidth = 0.30, relheight = 0.10, anchor = 'n')
+    
+    DCM_status = tk.Label(homepage_window, font = 14)
+    DCM_status.place(relx = 0.90, rely = 0, relwidth = 0.15, relheight = 0.05)
+
+    DCM_status_label = tk.Label(homepage_window, bg = '#551033', text = "DCM Status")
+    DCM_status_label.place(relx = 0.95, rely = 0.05, relwidth = 0.080, relheight = 0.040, anchor = 'n')
+    
+    val = 1
+
+    if(val == 1):
+        DCM_status['bg'] = '#7BFF33'
+    else:
+        DCM_status['bg'] = '#EF2B0B'
 
 #register
 def register_window():
@@ -146,7 +163,7 @@ password_entry = tk.Entry(root, text = "Password", font = 40, show = '*')
 password_entry.place(relx = 0.5, rely = 0.50, relwidth = 0.5, relheight = 0.1, anchor = 'n')
 
 login_button = tk.Button(root, text = "Login", font = 12, command = lambda: login(username_entry.get(), password_entry.get(), label_login_response))
-login_button.place(relx = 0.5, rely = 0.7, relheight = .1, relwidth = 0.15, anchor = 'n')
+login_button.place(relx = 0.5, rely = 0.7, relheight = .1, relwidth = 0.15, anchor = 'n')              
 
 label_login_response = tk.Label(root, bg = '#551033', font = 12)
 label_login_response.place(relx = 0.5, rely = 0.65, relheight = 0.05, relwidth = 0.8, anchor = 'n')
