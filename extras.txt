@@ -1,0 +1,25 @@
+#setters
+def setLowerRate(self, value):
+    self.lower_rate = value
+
+def setUpperRate(self, value):
+    self.upper_rate = value
+        
+def setAtrialAmplitude(self, value):
+    self.atrial_amplitude = value
+
+def setAtrialPulseWidth(self, value):
+    self.atrial_pulse_width = value
+
+def setVentricularAmplitude(self, value):
+    self.ventricular_amplitude = value
+
+def setVentricularPulseWidth(self, value):
+    self.ventricular_pulse_width = value
+
+def setVRP(self, value):
+    self.VRP = value
+
+def setARP(self, value):
+    self.ARP = value
+

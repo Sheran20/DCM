@@ -1,5 +1,6 @@
 import os
 
+########## User Class Defenition #########
 class User:
     
     # contructor
@@ -49,33 +50,10 @@ class User:
     def getARP(self):
         return self.ARP
 
-    #setters
-    def setLowerRate(self, value):
-        self.lower_rate = value
-
-    def setUpperRate(self, value):
-        self.upper_rate = value
-            
-    def setAtrialAmplitude(self, value):
-        self.atrial_amplitude = value
-
-    def setAtrialPulseWidth(self, value):
-        self.atrial_pulse_width = value
-
-    def setVentricularAmplitude(self, value):
-        self.ventricular_amplitude = value
-
-    def setVentricularPulseWidth(self, value):
-        self.ventricular_pulse_width = value
-
-    def setVRP(self, value):
-        self.VRP = value
-
-    def setARP(self, value):
-        self.ARP = value
+    # setters removed - user can only set instance fields when authorized
 
     # methods
-    def storeUser(self):
+    def userStore(self):
         textFile = self.username + ".txt"
         f = open(textFile, "x")
         f.write(
@@ -109,36 +87,39 @@ class User:
         print(path)
         os.rename(path + "\\" + textFile, path + "\\users" + "\\" + textFile)
 
-    def userUpdate(self, field, value):
-        
-        if field not in self.userData:                                  #check if the specified field exists
-            print("Field does not exist")
-            return
-    
-        i = self.userData.index(field)
-        f = open(self.file_directory, "r")
-        data = f.readlines()
-        data[i] = field + ": " + str(value) + "\n"              #change the line specified
+    def userUpdate(self, fields, values):         #this method updates the text files, not the instance variables
+        i = 0
+        for field in fields:
+            if field not in self.userData:                                  #check if the specified field exists
+                print("Field does not exist")
+                return
+            else:
+                j = self.userData.index(field)
+                f = open(self.file_directory, "r")
+                data = f.readlines()
+                data[j] = field + ": " + str(values[i]) + "\n"              #change the line specified
+                i += 1
+                f = open(self.file_directory, "w")
+                f.writelines(data)
+                f.close
 
-        f = open(self.file_directory, "w")
-        f.writelines(data)
-        f.close
-
-    def deleteUser(self):
+    def userDelete (self):
         textFile = self.username + ".txt"
         os.remove(textFile)
 
-userObjects = []
 
-def getUserData():
+########## User Utility Functions ##########
+userObjects = []                               # this array loads up all user data and is available only when application starts
+
+def getUserData():                             # necessary function to authorize login
     
     directory = os.getcwd() + "\\users"
-    for filename in os.listdir(directory):                        #loop through text files
+    for filename in os.listdir(directory):                        # loop through text files
         
         if filename.endswith(".txt"):
             file_directory = directory + "\\" + filename
             
-            username = None                                       #set temporary user data
+            username = None                                       # set temporary user data
             password = None
             lower_rate = None
             upper_rate = None
@@ -149,7 +130,7 @@ def getUserData():
             VRP = None
             ARP = None
 
-            f = open(file_directory, "r")                        #read data from text files and store them
+            f = open(file_directory, "r")                        # read data from text files and store them
             for line in f:
                 if "username: " in line:
                     username = line.split(":")[-1].strip()
@@ -189,13 +170,9 @@ def getUserData():
         else:
             print("No current users")
 
-# update user info 
-def updateUser(username, field, value):
-    i = 0
-    while(i < len(userObjects)):
-        if userObjects[i].getUsername() == username:
-            userObjects[i].userUpdate(field,value)      #calls class method userUpdate
-            return
-        elif i == (len(userObjects) - 1):
-            return
-        i += 1
+
+
+
+
+
+
