@@ -74,7 +74,7 @@ def AOO_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude):
 # VOO_Pace Pacing Functionality
 def VOO_Pace(lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth):
     print(lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth)
-    current_user.userUpdate(["lower_rate", "upper_rate", "ventricular", "ventricular_amplitude"], [lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth])
+    current_user.userUpdate(["lower_rate", "upper_rate", "ventricular_amplitude", "ventricular_pulse_width"], [lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth])
 
 # AAI Pacing Functionality
 def AAI_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, ARP):
@@ -85,7 +85,7 @@ def AAI_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, ARP):
 # VVI Pacing Functionality
 def VVI_Pace(lowerRate, upperRate, ventricularPulseWidth, ventricualrAmplitude, VRP):
     print(lowerRate, upperRate, ventricularPulseWidth, ventricualrAmplitude, VRP)
-    current_user.userUpdate(["lower_rate", "upper_rate", "ventricular", "ventricular_amplitude", "VRP"], [lowerRate, upperRate, ventricularPulseWidth, ventricualrAmplitude, VRP])
+    current_user.userUpdate(["lower_rate", "upper_rate", "ventricular_pulse_width", "ventricular_amplitude", "VRP"], [lowerRate, upperRate, ventricularPulseWidth, ventricualrAmplitude, VRP])
 
 ########## Front End ##########
 
