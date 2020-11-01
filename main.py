@@ -47,7 +47,7 @@ def login(username, password, label):
     i = 0
 
     if(len(userObjects) == 0):                               #determines if users even exist           
-        label['text'] = 'This User Does Not Exist'
+        label['text'] = 'The username or password you entered did not match our records'
         return
 
     while(i < len(userObjects)):
@@ -57,14 +57,11 @@ def login(username, password, label):
             current_user = userObjects[i]
             pacing_modes_window()
             return 
-        elif userObjects[i].getUsername() == username and userObjects[i].getPassword() != password:
-            label['text'] = 'The username or password you entered did not match our records'
-            return
-        elif i == (len(userObjects) - 1):
-            label['text'] = 'This User Does Not Exist'
-            return
         else:
             i += 1
+
+    label['text'] = 'The username or password you entered did not match our records'
+    return
 
 # AOO Pacing Functionality
 def AOO_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, label):
