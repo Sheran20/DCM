@@ -58,7 +58,7 @@ def login(username, password, label):
             pacing_modes_window()
             return 
         elif userObjects[i].getUsername() == username and userObjects[i].getPassword() != password:
-            label['text'] = 'The Password You Entered Is Incorrect'
+            label['text'] = 'The username or password you entered did not match our records'
             return
         elif i == (len(userObjects) - 1):
             label['text'] = 'This User Does Not Exist'
@@ -67,25 +67,67 @@ def login(username, password, label):
             i += 1
 
 # AOO Pacing Functionality
-def AOO_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude):
-    print(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude)
-    current_user.userUpdate(["lower_rate", "upper_rate", "atrial_pulse_width", "atrial_amplitude"], [lowerRate, upperRate, atrialPulseWidth, atrialAmplitude])
+def AOO_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, label):
+    if(int(lowerRate) < 343 or int(lowerRate) > 2000 ):
+        label['text'] = 'Please input a Lower Rate between 343ms and 2000ms'
+    elif(int(atrialAmplitude) < 500 or int(atrialAmplitude) > 5000):
+        label['text'] = 'Please input an Atrial Amplitude between 500mV and 5000mV'
+    elif(int(atrialPulseWidth) < 1 or int(atrialPulseWidth) > 30):
+        label['text'] = 'Please input an Atrial Pulse Width between 1ms and 30ms'
+    else:
+        print(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude)
+        label['text'] = 'Successfully sent parameters'
+        current_user.userUpdate(["lower_rate", "upper_rate", "atrial_pulse_width", "atrial_amplitude"], [lowerRate, upperRate, atrialPulseWidth, atrialAmplitude])
 
 # VOO_Pace Pacing Functionality
-def VOO_Pace(lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth):
-    print(lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth)
-    current_user.userUpdate(["lower_rate", "upper_rate", "ventricular_amplitude", "ventricular_pulse_width"], [lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth])
+def VOO_Pace(lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth, label):
+    if(int(lowerRate) < 343 or int(lowerRate) > 2000 ):
+        label['text'] = 'Please input a Lower Rate between 343ms and 2000ms'
+    elif(int(upperRate) > 80):
+        label['text'] = 'Please input a Upper Rate between 50 and 80'
+    elif(int(ventricularAmplitude) < 500 or int(ventricularAmplitude) > 5000):
+        label['text'] = 'Please input a Ventricular Amplitude between 500mv and 5000mv'
+    elif(int(ventricularPulseWidth) < 1 or int(ventricularPulseWidth) > 30):
+        label['text'] = 'Please input a Ventricular Pulse Width between 1ms and 30'
+    else:
+        print(lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth)
+        label['text'] = 'Successfully sent parameters'
+        current_user.userUpdate(["lower_rate", "upper_rate", "ventricular_amplitude", "ventricular_pulse_width"], [lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth])
 
 # AAI Pacing Functionality
-def AAI_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, ARP):
-    print(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, ARP)
-    current_user.userUpdate(["lower_rate", "upper_rate", "atrial_pulse_width", "atrial_amplitude", "ARP"], [lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, ARP])
-
+def AAI_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, ARP, label):
+    if(int(lowerRate) < 343 or int(lowerRate) > 2000 ):
+        label['text'] = 'Please input a Lower Rate between 343ms and 2000ms'
+    elif(int(atrialAmplitude) < 500 or int(atrialAmplitude) > 5000):
+        label['text'] = 'Please input an Atrial Amplitude between 500mV and 5000mV'
+    elif(int(atrialPulseWidth) < 1 or int(atrialPulseWidth) > 30):
+        label['text'] = 'Please input an Atrial Pulse Width between 1ms and 30ms'
+    elif(int(ARP) < 150 or int(ARP) > 500):
+        label['text'] = 'Please input an ARP between 150ms and 500ms'
+    else:
+        print(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, ARP)
+        label['text'] = 'Successfully sent parameters'
+        current_user.userUpdate(["lower_rate", "upper_rate", "atrial_pulse_width", "atrial_amplitude", "ARP"], [lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, ARP])
 
 # VVI Pacing Functionality
-def VVI_Pace(lowerRate, upperRate, ventricularPulseWidth, ventricualrAmplitude, VRP):
-    print(lowerRate, upperRate, ventricularPulseWidth, ventricualrAmplitude, VRP)
-    current_user.userUpdate(["lower_rate", "upper_rate", "ventricular_pulse_width", "ventricular_amplitude", "VRP"], [lowerRate, upperRate, ventricularPulseWidth, ventricualrAmplitude, VRP])
+def VVI_Pace(lowerRate, upperRate, ventricularPulseWidth, ventricularAmplitude, VRP, label):
+    if(int(lowerRate) < 343 or int(lowerRate) > 2000 ):
+        label['text'] = 'Please input a Lower Rate between 343ms and 2000ms'
+    elif(int(ventricularAmplitude) < 500 or int(ventricularAmplitude) > 5000):
+        label['text'] = 'Please input a Ventricular Amplitude between 500mV and 5000mV'
+    elif(int(ventricularPulseWidth) < 1 or int(ventricularPulseWidth) > 30):
+        label['text'] = 'Please input a Ventricular Pulse Width between 1ms and 30ms'
+    elif(int(VRP) < 150 or int(VRP) > 500):
+        label['text'] = 'Please input a VPR value between 150ms and 500ms'
+    else:
+        print(lowerRate, upperRate, ventricularPulseWidth, ventricularAmplitude, VRP)
+        label['text'] = 'Successfully sent parameters'
+        current_user.userUpdate(["lower_rate", "upper_rate", "ventricular_pulse_width", "ventricular_amplitude", "VRP"], [lowerRate, upperRate, ventricularPulseWidth, ventricularAmplitude, VRP])
+
+# Receiving Pacemaker ID and connection status
+current_pacemakerID = 4125
+DCM_status_val = 1                 # 1 = connected, 0 = no connection
+
 
 ########## Front End ##########
 
@@ -97,28 +139,30 @@ def AOO_window():
 
     lower_rate_limit = tk.Entry(AOO_window, text = "Lower Rate Limit ")
     lower_rate_limit.place(relx = 0.50, rely = 0.05, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    lower_rate_label = tk.Label(AOO_window, text = 'Lower Rate Limit', bg = '#551033')
-    lower_rate_label.place(relx = 0.50, rely = 0.09, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    lower_rate_label = tk.Label(AOO_window, text = 'Lower Rate Limit (343ms - 2000ms)', bg = '#551033')
+    lower_rate_label.place(relx = 0.50, rely = 0.09, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     upper_rate_limit = tk.Entry(AOO_window, text = "Upper Rate Limit")
     upper_rate_limit.place(relx = 0.50, rely = 0.20, relwidth = 0.20, relheight = 0.040, anchor = 'n')
     upper_rate_label = tk.Label(AOO_window, text = 'Upper Rate Limit', bg = '#551033')
-    upper_rate_label.place(relx = 0.50, rely = 0.24, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-
-    atrial_pulse_width = tk.Entry(AOO_window, text = "Atrial Pules Width")
-    atrial_pulse_width.place(relx = 0.50, rely = 0.35, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    atrial_pulse_label = tk.Label(AOO_window, text = 'Atrial Pules', bg = '#551033')
-    atrial_pulse_label.place(relx = 0.50, rely = 0.39, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    upper_rate_label.place(relx = 0.50, rely = 0.24, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     atrial_amplitude = tk.Entry(AOO_window, text = "Atrial Amplitude")
-    atrial_amplitude.place(relx = 0.50, rely = 0.50, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    atrial_amplitude_label = tk.Label(AOO_window, text = 'Atrial Amplitude', bg = '#551033')
-    atrial_amplitude_label.place(relx = 0.50, rely = 0.54, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    atrial_amplitude.place(relx = 0.50, rely = 0.35, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    atrial_amplitude_label = tk.Label(AOO_window, text = 'Atrial Amplitude (500mV - 5000mV)', bg = '#551033')
+    atrial_amplitude_label.place(relx = 0.50, rely = 0.39, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
-    pace_now_button = tk.Button(AOO_window, text = "Pace Now", font = 96, command = lambda: AOO_Pace(lower_rate_limit.get(), upper_rate_limit.get(), atrial_pulse_width.get(), atrial_amplitude.get()))
-    pace_now_button.place(relx = 0.5, rely = 0.80, relwidth = 0.40, relheight = 0.10, anchor = 'n')
-    # pace_now_label = tk.Label(AOO_window, font = 40, bg = '#551033')
-    # pace_now_label.place(relx = 0.5, rely = 0.70, relwidth = 0.40, relheight = 0.10, anchor = 'n')
+    atrial_pulse_width = tk.Entry(AOO_window, text = "Atrial Pulse Width")
+    atrial_pulse_width.place(relx = 0.50, rely = 0.50, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    atrial_pulse_label = tk.Label(AOO_window, text = 'Atrial Pulse Width (1ms - 30ms)', bg = '#551033')
+    atrial_pulse_label.place(relx = 0.50, rely = 0.54, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+
+
+    error_label = tk.Label(AOO_window, text = '', bg = '#551033')
+    error_label.place(relx = 0.5, rely = 0.75, relwidth = 0.5, relheight = 0.05, anchor = 'n')
+
+    send_parameters_button = tk.Button(AOO_window, text = "Send Parameters", font = 96, command = lambda: AOO_Pace(lower_rate_limit.get(), upper_rate_limit.get(), atrial_pulse_width.get(), atrial_amplitude.get(), error_label))
+    send_parameters_button.place(relx = 0.5, rely = 0.80, relwidth = 0.40, relheight = 0.10, anchor = 'n')
 
 # VOO_window
 def VOO_window():
@@ -128,26 +172,29 @@ def VOO_window():
 
     lower_rate_limit = tk.Entry(VOO_window)
     lower_rate_limit.place(relx = 0.50, rely = 0.05, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    lower_rate_label = tk.Label(VOO_window, text = 'Lower Rate Limit', bg = '#551033')
-    lower_rate_label.place(relx = 0.50, rely = 0.09, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    lower_rate_label = tk.Label(VOO_window, text = 'Lower Rate Limit (343ms - 2000ms)', bg = '#551033')
+    lower_rate_label.place(relx = 0.50, rely = 0.09, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     upper_rate_limit = tk.Entry(VOO_window)
     upper_rate_limit.place(relx = 0.50, rely = 0.20, relwidth = 0.20, relheight = 0.040, anchor = 'n')
     upper_rate_label = tk.Label(VOO_window, text = 'Upper Rate Limit', bg = '#551033')
-    upper_rate_label.place(relx = 0.50, rely = 0.24, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-
+    upper_rate_label.place(relx = 0.50, rely = 0.24, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+    
     ventricular_amplitude = tk.Entry(VOO_window)
     ventricular_amplitude.place(relx = 0.50, rely = 0.35, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    ventricular_amplitude_label = tk.Label(VOO_window, text = 'Ventricular Amplitude', bg = '#551033')
-    ventricular_amplitude_label.place(relx = 0.50, rely = 0.39, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    ventricular_amplitude_label = tk.Label(VOO_window, text = 'Ventricular Amplitude (500mv - 5000mv)', bg = '#551033')
+    ventricular_amplitude_label.place(relx = 0.50, rely = 0.39, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     ventricular_pulse_width = tk.Entry(VOO_window)
     ventricular_pulse_width.place(relx = 0.50, rely = 0.50, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    ventricular_pulse_width_label = tk.Label(VOO_window, text = 'Ventricular Pulse Width', bg = '#551033')
-    ventricular_pulse_width_label.place(relx = 0.50, rely = 0.54, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    ventricular_pulse_width_label = tk.Label(VOO_window, text = 'Ventricular Pulse Width (1ms - 30ms)', bg = '#551033')
+    ventricular_pulse_width_label.place(relx = 0.50, rely = 0.54, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
-    pace_now_button = tk.Button(VOO_window, text = "Pace Now", font = 96, command = lambda: VOO_Pace(lower_rate_limit.get(), upper_rate_limit.get(), ventricular_amplitude.get(), ventricular_pulse_width.get()))
-    pace_now_button.place(relx = 0.5, rely = 0.80, relwidth = 0.40, relheight = 0.10, anchor = 'n')
+    error_label = tk.Label(VOO_window, text = '', bg = '#551033')
+    error_label.place(relx = 0.5, rely = 0.75, relwidth = 0.5, relheight = 0.05, anchor = 'n')
+
+    send_parameters_button = tk.Button(VOO_window, text = "Send Parameters", font = 96, command = lambda: VOO_Pace(lower_rate_limit.get(), upper_rate_limit.get(), ventricular_amplitude.get(), ventricular_pulse_width.get(), error_label))
+    send_parameters_button.place(relx = 0.5, rely = 0.80, relwidth = 0.40, relheight = 0.10, anchor = 'n')
     
 # AAI_Window
 def AAI_window():
@@ -157,31 +204,34 @@ def AAI_window():
 
     lower_rate_limit = tk.Entry(AAI_window)
     lower_rate_limit.place(relx = 0.50, rely = 0.05, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    lower_rate_label = tk.Label(AAI_window, text = 'Lower Rate Limit', bg = '#551033')
-    lower_rate_label.place(relx = 0.50, rely = 0.09, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    lower_rate_label = tk.Label(AAI_window, text = 'Lower Rate Limit (343ms - 2000ms)', bg = '#551033')
+    lower_rate_label.place(relx = 0.50, rely = 0.09, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     upper_rate_limit = tk.Entry(AAI_window)
     upper_rate_limit.place(relx = 0.50, rely = 0.20, relwidth = 0.20, relheight = 0.040, anchor = 'n')
     upper_rate_label = tk.Label(AAI_window, text = 'Upper Rate Limit', bg = '#551033')
-    upper_rate_label.place(relx = 0.50, rely = 0.24, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    upper_rate_label.place(relx = 0.50, rely = 0.24, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     atrial_amplitude = tk.Entry(AAI_window)
     atrial_amplitude.place(relx = 0.50, rely = 0.35, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    atrial_amplitude_label = tk.Label(AAI_window, text = 'Atrial Ampltiude', bg = '#551033')
-    atrial_amplitude_label.place(relx = 0.50, rely = 0.39, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    atrial_amplitude_label = tk.Label(AAI_window, text = 'Atrial Ampltiude (500mV - 5000mV)', bg = '#551033')
+    atrial_amplitude_label.place(relx = 0.50, rely = 0.39, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     atrial_pulse_width = tk.Entry(AAI_window)
     atrial_pulse_width.place(relx = 0.50, rely = 0.50, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    atrial_pulse_width_label = tk.Label(AAI_window, text = 'Atrial Pulse Width', bg = '#551033')
-    atrial_pulse_width_label.place(relx = 0.50, rely = 0.54, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    atrial_pulse_width_label = tk.Label(AAI_window, text = 'Atrial Pulse Width (1ms - 30ms)', bg = '#551033')
+    atrial_pulse_width_label.place(relx = 0.50, rely = 0.54, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     ARP = tk.Entry(AAI_window, text = "ARP")
     ARP.place(relx = 0.50, rely = 0.65, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    ARP_label = tk.Label(AAI_window, text = 'ARP', bg = '#551033')
-    ARP_label.place(relx = 0.50, rely = 0.69, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    ARP_label = tk.Label(AAI_window, text = 'ARP (150ms - 500ms)', bg = '#551033')
+    ARP_label.place(relx = 0.50, rely = 0.69, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
-    pace_now_button = tk.Button(AAI_window, text = "Pace Now", font = 96, command = lambda: AAI_Pace(lower_rate_limit.get(), upper_rate_limit.get(), atrial_amplitude.get(), atrial_pulse_width.get(), ARP.get()))
-    pace_now_button.place(relx = 0.5, rely = 0.80, relwidth = 0.40, relheight = 0.10, anchor = 'n')
+    error_label = tk.Label(AAI_window, text = '', bg = '#551033')
+    error_label.place(relx = 0.5, rely = 0.75, relwidth = 0.5, relheight = 0.05, anchor = 'n')
+
+    send_parameters_button = tk.Button(AAI_window, text = "Send Parameters", font = 96, command = lambda: AAI_Pace(lower_rate_limit.get(), upper_rate_limit.get(), atrial_pulse_width.get(), atrial_amplitude.get(), ARP.get(), error_label))
+    send_parameters_button.place(relx = 0.5, rely = 0.80, relwidth = 0.40, relheight = 0.10, anchor = 'n')
 
 #VVI_window
 def VVI_window():
@@ -191,31 +241,34 @@ def VVI_window():
 
     lower_rate_limit = tk.Entry(VVI_window)
     lower_rate_limit.place(relx = 0.50, rely = 0.05, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    lower_rate_label = tk.Label(VVI_window, text = 'Lower Rate Limit', bg = '#551033')
-    lower_rate_label.place(relx = 0.50, rely = 0.09, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    lower_rate_label = tk.Label(VVI_window, text = 'Lower Rate Limit (343ms - 2000ms)', bg = '#551033')
+    lower_rate_label.place(relx = 0.50, rely = 0.09, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     upper_rate_limit = tk.Entry(VVI_window)
     upper_rate_limit.place(relx = 0.50, rely = 0.20, relwidth = 0.20, relheight = 0.040, anchor = 'n')
     upper_rate_label = tk.Label(VVI_window, text = 'Upper Rate Limit', bg = '#551033')
-    upper_rate_label.place(relx = 0.50, rely = 0.24, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    upper_rate_label.place(relx = 0.50, rely = 0.24, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     ventricular_amplitude = tk.Entry(VVI_window)
     ventricular_amplitude.place(relx = 0.50, rely = 0.35, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    ventricular_amplitude_label = tk.Label(VVI_window, text = 'Ventricular Ampltiude', bg = '#551033')
-    ventricular_amplitude_label.place(relx = 0.50, rely = 0.39, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    ventricular_amplitude_label = tk.Label(VVI_window, text = 'Ventricular Ampltiude (500mV - 5000mV)', bg = '#551033')
+    ventricular_amplitude_label.place(relx = 0.50, rely = 0.39, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     ventricular_pulse_width = tk.Entry(VVI_window)
     ventricular_pulse_width.place(relx = 0.50, rely = 0.50, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    ventricular_pulse_width_label = tk.Label(VVI_window, text = 'Atrial Pulse Width', bg = '#551033')
-    ventricular_pulse_width_label.place(relx = 0.50, rely = 0.54, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    ventricular_pulse_width_label = tk.Label(VVI_window, text = 'Ventricular Pulse Width (1ms - 30ms)', bg = '#551033')
+    ventricular_pulse_width_label.place(relx = 0.50, rely = 0.54, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     VRP = tk.Entry(VVI_window, text = "VRP")
     VRP.place(relx = 0.50, rely = 0.65, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    VRP_label = tk.Label(VVI_window, text = 'VRP', bg = '#551033')
-    VRP_label.place(relx = 0.50, rely = 0.69, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    VRP_label = tk.Label(VVI_window, text = 'VRP (150ms - 500ms)', bg = '#551033')
+    VRP_label.place(relx = 0.50, rely = 0.69, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
-    pace_now_button = tk.Button(VVI_window, text = "Pace Now", font = 96, command = lambda: VVI_Pace(lower_rate_limit.get(), upper_rate_limit.get(), ventricular_amplitude.get(), ventricular_pulse_width.get(), VRP.get()))
-    pace_now_button.place(relx = 0.5, rely = 0.80, relwidth = 0.40, relheight = 0.10, anchor = 'n')
+    error_label = tk.Label(VVI_window, text = '', bg = '#551033')
+    error_label.place(relx = 0.5, rely = 0.75, relwidth = 0.5, relheight = 0.05, anchor = 'n')
+
+    send_parameters_button = tk.Button(VVI_window, text = "Send Parameters", font = 96, command = lambda: VVI_Pace(lower_rate_limit.get(), upper_rate_limit.get(), ventricular_pulse_width.get(), ventricular_amplitude.get(), VRP.get(), error_label))
+    send_parameters_button.place(relx = 0.5, rely = 0.80, relwidth = 0.40, relheight = 0.10, anchor = 'n')
 
 # pacing_modes_window
 def pacing_modes_window():
@@ -237,7 +290,7 @@ def pacing_modes_window():
     display_label = tk.Label(pacing_modes_window, bg = '#551033', text = "Please Select a Mode")
     display_label.place(relx = 0.10, rely = 0.35, relwidth = 0.8, relheight = 0.30)
 
-    pacemakerID = tk.Label(pacing_modes_window, text = 'Pacemaker Connected: 4125', bg = '#551033')
+    pacemakerID = tk.Label(pacing_modes_window, text = 'Pacemaker Connected: ' + str(current_pacemakerID), bg = '#551033')
     pacemakerID.place(relx = 0, rely = 0, relwidth = 0.20, relheight = 0.05)
 
     DCM_status = tk.Label(pacing_modes_window, font = 14)
@@ -246,31 +299,9 @@ def pacing_modes_window():
     DCM_status_label = tk.Label(pacing_modes_window, bg = '#551033', text = "DCM Status")
     DCM_status_label.place(relx = 0.95, rely = 0.05, relwidth = 0.080, relheight = 0.040, anchor = 'n')
     
-    val = 1
+    global DCM_status_val
 
-    if(val == 1):
-        DCM_status['bg'] = '#7BFF33'
-    else:
-        DCM_status['bg'] = '#EF2B0B'
-
-# homepage_window
-def homepage_window():
-    print(current_user.getUsername())
-    current_user.userUpdate("upper_rate", 123)
-    homepage_window = tk.Toplevel(root, height = HEIGHT, width = WIDTH)
-    homepage_window.configure(background = '#551033')
-    pace_now = tk.Button(homepage_window, text = "Pace Now", font = 96, command = lambda: pacing_modes_window())
-    pace_now.place(relx = 0.5, rely = 0.9, relwidth = 0.30, relheight = 0.10, anchor = 'n')
-    
-    DCM_status = tk.Label(homepage_window, font = 14)
-    DCM_status.place(relx = 0.90, rely = 0, relwidth = 0.15, relheight = 0.05)
-
-    DCM_status_label = tk.Label(homepage_window, bg = '#551033', text = "DCM Status")
-    DCM_status_label.place(relx = 0.95, rely = 0.05, relwidth = 0.080, relheight = 0.040, anchor = 'n')
-    
-    val = 1
-
-    if(val == 1):
+    if(DCM_status_val == 1):
         DCM_status['bg'] = '#7BFF33'
     else:
         DCM_status['bg'] = '#EF2B0B'
