@@ -1,3 +1,6 @@
+This file is not project related
+
+
 #setters
 def setLowerRate(self, value):
     self.lower_rate = value
@@ -23,3 +26,30 @@ def setVRP(self, value):
 def setARP(self, value):
     self.ARP = value
 
+    def getLowerRate(self):
+        return self.lower_rate
+
+    def getUpperRate(self):
+        return self.upper_rate
+
+    def getAtrialAmplitude(self):
+        return self.atrial_amplitude
+
+    def getAtrialPulseWidth(self):
+        return self.atrial_pulse_width
+
+    def getVentricularAmplitude(self):
+        return self.ventricular_amplitude
+
+    def getVentricularPulseWidth(self):
+        return self.ventricular_pulse_width
+
+    def getVRP(self):
+        return self.VRP
+
+    def getARP(self):
+        return self.ARP
+
+    def userDelete (self):
+        textFile = self.username + ".txt"
+        os.remove(textFile)

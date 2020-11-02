@@ -26,31 +26,7 @@ class User:
     def getPassword(self):
         return self.password   
 
-    def getLowerRate(self):
-        return self.lower_rate
-
-    def getUpperRate(self):
-        return self.upper_rate
-
-    def getAtrialAmplitude(self):
-        return self.atrial_amplitude
-
-    def getAtrialPulseWidth(self):
-        return self.atrial_pulse_width
-
-    def getVentricularAmplitude(self):
-        return self.ventricular_amplitude
-
-    def getVentricularPulseWidth(self):
-        return self.ventricular_pulse_width
-
-    def getVRP(self):
-        return self.VRP
-
-    def getARP(self):
-        return self.ARP
-
-    # setters removed - user can only set instance fields when authorized
+    # setters and some getters removed - user can only set and get instance fields when authorized
 
     # methods
     def userStore(self):
@@ -103,9 +79,6 @@ class User:
                 f.writelines(data)
                 f.close
 
-    def userDelete (self):
-        textFile = self.username + ".txt"
-        os.remove(textFile)
 
 
 ########## User Utility Functions ##########
@@ -153,18 +126,27 @@ def getUserData():                             # necessary function to authorize
                 elif "ARP: " in line:
                     ARP = line.split(":")[-1].strip()
             
-            # print(username)
-            # print(password)
-            # print(lower_rate)
-            # print(upper_rate)
-            # print(atrial_amplitude)
-            # print(atrial_pulse_width)
-            # print(ventricular_amplitude)
-            # print(ventricular_pulse_width)
-            # print(VRP)
-            # print(ARP)
-
             oldUser = User(username, password)
+            oldUser.userUpdate([
+                "lower_rate", 
+                "upper_rate", 
+                "atrial_amplitude", 
+                "atrial_pulse_width",
+                "ventricular_amplitude", 
+                "ventricular_pulse_width",
+                "VRP",
+                "ARP"
+            ],
+            [
+                lower_rate,
+                upper_rate,
+                atrial_amplitude,
+                atrial_pulse_width,
+                ventricular_amplitude,
+                ventricular_pulse_width,
+                VRP,
+                ARP
+                ])
             userObjects.append(oldUser)
 
         else:

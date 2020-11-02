@@ -17,10 +17,10 @@ current_user = None                  #set an empty class instance for the curren
 # create_user
 def create_user(username, password, label):
     if not username:                                         #Checks if password and username were entered
-        label['text'] = "Please Enter a username"
+        label['text'] = "Please Enter a Username"
         return
     if not password:
-        label['text'] = "Please Enter a password"
+        label['text'] = "Please Enter a Password"
         return
 
     if len(userObjects) == 10:                                #Checks if max users has been reached 
@@ -36,9 +36,9 @@ def create_user(username, password, label):
     newUser.userStore()
     userObjects.append(newUser)
 
-    print("Current users are: ")
-    for user in userObjects:
-        print(user.getUsername())
+    # print("Current users are: ")
+    # for user in userObjects:
+    #     print(user.getUsername())
     
     label['text'] = "User Has Been Created"
 
@@ -80,8 +80,6 @@ def AOO_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, label):
 def VOO_Pace(lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth, label):
     if(int(lowerRate) < 343 or int(lowerRate) > 2000 ):
         label['text'] = 'Please input a Lower Rate between 343ms and 2000ms'
-    elif(int(upperRate) > 80):
-        label['text'] = 'Please input a Upper Rate between 50 and 80'
     elif(int(ventricularAmplitude) < 500 or int(ventricularAmplitude) > 5000):
         label['text'] = 'Please input a Ventricular Amplitude between 500mv and 5000mv'
     elif(int(ventricularPulseWidth) < 1 or int(ventricularPulseWidth) > 30):
@@ -318,7 +316,7 @@ def register_window():
 
     create_label_username = tk.Label(register_window, bg = '#551033', text = "Please Enter Desired Username", font = 24)
     create_label_username.place(relx = 0.5, rely = 0.15, relwidth = 0.5, relheight = 0.1, anchor = 'n')
-    create_username_entry = tk.Entry(register_window, text = "Create User Name", font = 40)
+    create_username_entry = tk.Entry(register_window, text = "Create Username", font = 40)
     create_username_entry.place(relx = 0.5, rely = 0.25, relwidth = 0.5, relheight = 0.1, anchor = 'n')
 
     label__create_password = tk.Label(register_window, bg = '#551033', text = "Please Enter Desired Password", font = 24)
