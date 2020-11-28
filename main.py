@@ -2,6 +2,7 @@ import tkinter as tk
 import os
 from user_control import User, getUserData, userObjects
 
+
 ######### Environment Variables ##########
 HEIGHT = 700
 WIDTH = 800
@@ -29,7 +30,7 @@ def create_user(username, password, label):
     
     for user in userObjects:
         if username == user.getUsername():
-            label['text'] = "User already exists"
+            label['text'] = "Registration Failed, Please Enter a Different Username"
             return
     
     newUser = User(username, password)

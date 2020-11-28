@@ -16,8 +16,37 @@ class User:
         self.ventricular_pulse_width = 0
         self.VRP = 0
         self.ARP = 0
+        self.rate_smooth = 0
+        self.av_delay = 0
+        self.atrial_sensitivity = 0
+        self.ventricular_sensitivity = 0
+        self.max_sensor_rate = 0
+        self.activitiy_threshold = 0
+        self.activity_reaction_time = 0
+        self.activity_response_factor = 0
+        self.activity_response_time = 0
         self.file_directory = os.getcwd() + "\\users" +"\\" + username + ".txt"
-        self.userData = ["username","password","lower_rate","upper_rate","atrial_amplitude","atrial_pulse_width","ventricular_amplitude","ventricular_pulse_width", "VRP", "ARP"]
+        self.userData = [
+            "username",
+            "password",
+            "lower_rate",
+            "upper_rate",
+            "atrial_amplitude",
+            "atrial_pulse_width",
+            "ventricular_amplitude",
+            "ventricular_pulse_width",
+            "VRP",
+            "ARP",
+            "rate_smooth",
+            "av_delay",
+            "atrial_sensitivity",
+            "ventricular_sensitivity",
+            "max_sensor_rate",
+            "activitiy_threshold",
+            "activity_reaction_time",
+            "activity_response_factor",
+            "activity_response_time"
+            ]
 
     # getters
     def getUsername(self):
@@ -43,6 +72,15 @@ class User:
             "ventricular_pulse_width: %d\n"
             "VRP: %d\n"
             "ARP: %d\n"
+            "rate_smooth: %d\n"
+            "av_delay: %d\n"
+            "atrial_sensitivity: %d\n"
+            "ventricular_sensitivity: %d\n"
+            "max_sensor_rate: %d\n"
+            "activitiy_threshold: %d\n"
+            "activity_reaction_time: %d\n"
+            "activity_response_factor: %d\n"
+            "activity_response_time: %d\n"
             % (
                 self.username,
                 self.password,
@@ -53,7 +91,16 @@ class User:
                 self.ventricular_amplitude, 
                 self.ventricular_pulse_width, 
                 self.VRP, 
-                self.ARP
+                self.ARP,
+                self.rate_smooth,
+                self.av_delay,
+                self.atrial_sensitivity,
+                self.ventricular_sensitivity,
+                self.max_sensor_rate,
+                self.activitiy_threshold,
+                self.activity_reaction_time,
+                self.activity_response_factor,
+                self.activity_response_time
             )
         )
         f.close()
@@ -102,6 +149,15 @@ def getUserData():                             # necessary function to authorize
             ventricular_pulse_width = None
             VRP = None
             ARP = None
+            rate_smooth = None
+            av_delay = None
+            atrial_sensitivity = None
+            ventricular_sensitivity = None
+            max_sensor_rate = None
+            activitiy_threshold = None
+            activity_reaction_time = None
+            activity_response_factor = None
+            activity_response_time = None
 
             f = open(file_directory, "r")                        # read data from text files and store them
             for line in f:
@@ -121,10 +177,25 @@ def getUserData():                             # necessary function to authorize
                     ventricular_amplitude = line.split(":")[-1].strip()
                 elif "ventricular_pulse_width: " in line:
                     ventricular_pulse_width = line.split(":")[-1].strip()
-                elif "VRP: " in line:
-                    VRP = line.split(":")[-1].strip()
-                elif "ARP: " in line:
-                    ARP = line.split(":")[-1].strip()
+                elif "rate_smooth: " in line:
+                    rate_smooth = line.split(":")[-1].strip()
+                elif "av_delay: " in line:
+                    av_delay = line.split(":")[-1].strip()
+                elif "atrial_sensitivity: " in line:
+                    atrial_sensitivity = line.split(":")[-1].strip()
+                elif "ventricular_sensitivity: " in line:
+                    ventricular_sensitivity = line.split(":")[-1].strip()
+                elif "max_sensor_rate: " in line:
+                    max_sensor_rate = line.split(":")[-1].strip()
+                elif "activitiy_threshold: " in line:
+                    activitiy_threshold = line.split(":")[-1].strip()
+                elif "activity_reaction_time: " in line:
+                    activity_reaction_time = line.split(":")[-1].strip()
+                elif "activity_response_factor: " in line:
+                    activity_response_factor = line.split(":")[-1].strip()
+                elif "activity_response_time: " in line:
+                    activity_response_time = line.split(":")[-1].strip()
+                
             
             oldUser = User(username, password)
             oldUser.userUpdate([
@@ -135,7 +206,16 @@ def getUserData():                             # necessary function to authorize
                 "ventricular_amplitude", 
                 "ventricular_pulse_width",
                 "VRP",
-                "ARP"
+                "ARP",
+                "rate_smooth",
+                "av_delay",
+                "atrial_sensitivity",
+                "ventricular_sensitivity",
+                "max_sensor_rate",
+                "activitiy_threshold",
+                "activity_reaction_time",
+                "activity_response_factor",
+                "activity_response_time"
             ],
             [
                 lower_rate,
@@ -145,7 +225,16 @@ def getUserData():                             # necessary function to authorize
                 ventricular_amplitude,
                 ventricular_pulse_width,
                 VRP,
-                ARP
+                ARP,
+                rate_smooth,
+                av_delay,
+                atrial_sensitivity,
+                ventricular_sensitivity,
+                max_sensor_rate,
+                activitiy_threshold,
+                activity_reaction_time,
+                activity_response_factor,
+                activity_response_time
                 ])
             userObjects.append(oldUser)
 
