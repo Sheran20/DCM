@@ -1,7 +1,7 @@
 username: Sheran
 password: 123
-lower_rate: 50
-upper_rate: 50
+lower_rate: 60
+upper_rate: 60
 atrial_amplitude: 5.0
 atrial_pulse_width: 1.0
 ventricular_amplitude: 5.0
