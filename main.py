@@ -1,7 +1,7 @@
 import tkinter as tk
 import os
 from user_control import User, getUserData, userObjects
-from serial_control import set_data, serial_send, current_pacemakerID, DCM_status_val, serial_read_atr, serial_read_vent, serial_read_atr_vent
+from serial_control import set_data, serial_send, current_pacemakerID, DCM_status_val, serial_recieve_av, serial_recieve_v, serial_recieve_a
 
 ######### Environment Variables ##########
 HEIGHT = 700
@@ -67,7 +67,6 @@ def login(username, password, label):
 
 # AOO Pacing Functionality
 def AOO_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, label):
-    dataMode = 0
     paceMode = 0
     if(int(lowerRate) < 30 or int(lowerRate) > 175 ):
         label['text'] = 'Please input a Lower Rate between 30ppm and 175ppm'
@@ -89,7 +88,6 @@ def AOO_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, label):
 
 # VOO_Pace Pacing Functionality
 def VOO_Pace(lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth, label):
-    dataMode = 0
     paceMode = 1
     if(int(lowerRate) < 30 or int(lowerRate) > 175 ):
         label['text'] = 'Please input a Lower Rate between 30ppm and 175ppm'
@@ -113,7 +111,6 @@ def VOO_Pace(lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth, 
 
 # AAI Pacing Functionality
 def AAI_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, ARP, label):
-    dataMode = 0
     paceMode = 2
     if(int(lowerRate) < 30 or int(lowerRate) > 175 ):
         label['text'] = 'Please input a Lower Rate between 30ppm and 175ppm'
@@ -139,7 +136,6 @@ def AAI_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, ARP, label
 
 # VVI Pacing Functionality
 def VVI_Pace(lowerRate, upperRate, ventricularPulseWidth, ventricularAmplitude, VRP, label):
-    dataMode = 0
     paceMode = 3
     if(int(lowerRate) < 30 or int(lowerRate) > 175 ):
         label['text'] = 'Please input a Lower Rate between 30ppm and 175ppm'
@@ -165,7 +161,6 @@ def VVI_Pace(lowerRate, upperRate, ventricularPulseWidth, ventricularAmplitude, 
 
 #DOO Pacing Functionality 
 def DOO_Pace(lowerRate, upperRate, atrialAmplitude, ventricularAmplitude, atrialPulseWidth, ventricularPulseWidth, label):
-    dataMode = 0
     paceMode = 4
     if(int(lowerRate) < 30 or int(lowerRate) > 175 ):
         label['text'] = 'Please input a Lower Rate between 30ppm and 175ppm'
@@ -193,7 +188,6 @@ def DOO_Pace(lowerRate, upperRate, atrialAmplitude, ventricularAmplitude, atrial
         
 #AOOR Pacing Functionality 
 def AOOR_Pace(lowerRate, upperRate, maxSensorRate, atrialAmplitude, atrialPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime, label):
-    dataMode = 0
     paceMode = 10
     if(int(lowerRate) < 30 or int(lowerRate) > 175 ):
         label['text'] = 'Please input a Lower Rate between 30ppm and 175ppm'
@@ -226,7 +220,6 @@ def AOOR_Pace(lowerRate, upperRate, maxSensorRate, atrialAmplitude, atrialPulseW
 
 #VOOR Pacing Functionality 
 def VOOR_Pace(lowerRate, upperRate, maxSensorRate, ventricularAmplitude, ventricularPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime, label):
-    dataMode = 0
     paceMode = 11
     if(int(lowerRate) < 30 or int(lowerRate) > 175 ):
         label['text'] = 'Please input a Lower Rate between 30ppm and 175ppm'
@@ -259,7 +252,6 @@ def VOOR_Pace(lowerRate, upperRate, maxSensorRate, ventricularAmplitude, ventric
 
 #AAIR Pacing Functionality 
 def AAIR_Pace(lowerRate, upperRate, maxSensorRate, atrialAmplitude, atrialPulseWidth, atrialSensitivity, ARP, PVARP, hysteresis, rateSmoothing, activityThreshold, reactionTime, responseFactor, recoveryTime, label):
-    dataMode = 0
     paceMode = 12
     if(int(lowerRate) < 30 or int(lowerRate) > 175 ):
         label['text'] = 'Please input a Lower Rate between 30ppm and 175ppm'
@@ -275,8 +267,8 @@ def AAIR_Pace(lowerRate, upperRate, maxSensorRate, atrialAmplitude, atrialPulseW
     elif(int(ARP) < 100 or int(ARP) > 500):
         label['text'] = 'Please input an ARP between 150ms and 500ms'
         return
-    elif(float(atrialSensitivity) not in [0.25, 0.50, 0.75] and (float(atrialSensitivity) < 1.0 or float(atrialSensitivity) > 10.0)):
-        label['text'] = 'Please input a Ventricular Sensitivty of 0.25mV, 0.50mV, 0.75mV, or between the values of 1.0mV and 10.0mV'
+    elif(float(atrialSensitivity) < 0.0 or atrialSensitivity > 5.0):
+        label['text'] = 'Please input a Ventricular Sensitivty between 0.0V and 5.0V'
     elif(float(int(rateSmoothing) > 21 or rateSmoothing) % 3 != 0):
         label['text'] = 'Please input a Rate Smoothing value of 0, 3, 6, 9, 12, 15, 18, or 21'
     elif(int(hysteresis) < 200 or int(hysteresis) > 500):
@@ -303,7 +295,6 @@ def AAIR_Pace(lowerRate, upperRate, maxSensorRate, atrialAmplitude, atrialPulseW
 
 #VVIR Pacing Functionality 
 def VVIR_Pace(lowerRate, upperRate, maxSensorRate, ventricularAmplitude, ventricularPulseWidth, ventricularSensitivity, VRP, RVVRP, hysteresis, rateSmoothing, activityThreshold, reactionTime, responseFactor, recoveryTime, label):
-    dataMode = 0
     paceMode = 13
     if(int(lowerRate) < 30 or int(lowerRate) > 175 ):
         label['text'] = 'Please input a Lower Rate between 30ppm and 175ppm'
@@ -320,8 +311,8 @@ def VVIR_Pace(lowerRate, upperRate, maxSensorRate, ventricularAmplitude, ventric
     elif(int(VRP) < 150 or int(VRP) > 500):
         label['text'] = 'Please input a VPR value between 150ms and 500ms'
         return
-    elif(float(ventricularSensitivity) not in [0.25, 0.50, 0.75] and float(ventricularSensitivity) < 1.0 or float(ventricularSensitivity) > 10.0):
-        label['text'] = 'Please input a Ventricular Sensitivty of 0.25mV, 0.50mV, 0.75mV, or between the values of 1.0mV and 10.0mV'
+    elif(float(ventricularSensitivity) < 0.0 or float(ventricularSensitivity) > 5.0):
+        label['text'] = 'Please input a Ventricular Sensitivity between 0.0V and 5.0V'
     elif(float(int(rateSmoothing) > 21 or rateSmoothing) % 3 != 0):
         label['text'] = 'Please input a Rate Smoothing value of 0, 3, 6, 9, 12, 15, 18, or 21'
     elif(int(hysteresis) < 200 or int(hysteresis) > 500):
@@ -348,7 +339,6 @@ def VVIR_Pace(lowerRate, upperRate, maxSensorRate, ventricularAmplitude, ventric
 
 #DOOR Pacing Functionality 
 def DOOR_Pace(lowerRate, upperRate, maxSensorRate, fixedAVDelay, atrialAmplitude, ventricularAmplitude, atrialPulseWidth, ventricularPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime, label):
-    dataMode = 0
     paceMode = 14
     if(int(lowerRate) < 30 or int(lowerRate) > 175 ):
         label['text'] = 'Please input a Lower Rate between 30ppm and 175ppm'
@@ -385,13 +375,13 @@ def DOOR_Pace(lowerRate, upperRate, maxSensorRate, fixedAVDelay, atrialAmplitude
         serial_send(["data_mode", "pace_mode", "lower_rate", "max_sensor_rate", "av_delay", "atrial_amplitude", "atrial_pulse_width", "ventricular_amplitude", "ventricular_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"],
         [dataMode, paceMode, lowerRate, maxSensorRate, fixedAVDelay, atrialAmplitude, atrialPulseWidth, ventricularAmplitude, ventricularPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime])
 
-# def EGRAM_Plot(button):
-#     if(button1):
-#         serial_read_atr()
-#     elif(button2):
-#         serial_read_vent()
-#     elif(button3):
-#         serial_read_atr_vent()
+def EGRAM_Plot(button):
+    if(button == 0):
+        serial_recieve_v()
+    elif(button == 1):
+        serial_recieve_a()
+    elif(button == 2):
+        serial_recieve_av()
 
 ########## Front End ##########
 
@@ -763,14 +753,14 @@ def AAIR_window():
 
     atrial_amplitude = tk.Entry(AAIR_window)
     atrial_amplitude.place(relx = 0.20, rely = 0.50, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    atrial_amplitude_label = tk.Label(AAIR_window, text = 'Atrial Amplitude (0.1V - 5V)', bg = '#bce6eb')
+    atrial_amplitude_label = tk.Label(AAIR_window, text = 'Atrial Amplitude (0V - 5V)', bg = '#bce6eb')
     atrial_amplitude_label.place(relx = 0.20, rely = 0.54, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     '''MIDDLE'''
 
     atrial_sensitivity = tk.Entry(AAIR_window)
     atrial_sensitivity.place(relx = 0.50, rely = 0.05, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    atrial_sensitivity_label = tk.Label(AAIR_window, text = 'Atrial Sensitivity', bg = '#bce6eb')
+    atrial_sensitivity_label = tk.Label(AAIR_window, text = 'Atrial Sensitivity (0.1V - 5.0V)', bg = '#bce6eb')
     atrial_sensitivity_label.place(relx = 0.50, rely = 0.09, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     atrial_pulse_width = tk.Entry(AAIR_window)
@@ -861,7 +851,7 @@ def VVIR_window():
 
     ventricular_sensitivity = tk.Entry(VVIR_window)
     ventricular_sensitivity.place(relx = 0.20, rely = 0.45, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    ventricular_sensitivity_label = tk.Label(VVIR_window, text = 'Ventricular Sensitivity', bg = '#bce6eb')
+    ventricular_sensitivity_label = tk.Label(VVIR_window, text = 'Ventricular Sensitivity (0V - 5.0V)', bg = '#bce6eb')
     ventricular_sensitivity_label.place(relx = 0.20, rely = 0.49, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     ventricular_pulse_width = tk.Entry(VVIR_window)
@@ -1043,13 +1033,13 @@ def pacing_modes_window():
     data_option_label = tk.Label(pacing_modes_window, bg = '#bce6eb', text = 'Select Egram', font = 96)
     data_option_label.place(relx = 0.50, rely = 0.65, relwidth = 0.40, relheight = 0.05, anchor = 'n')
 
-    ventricular_option = tk.Button(pacing_modes_window, text = 'Ventricular Egram', font = 24)
+    ventricular_option = tk.Button(pacing_modes_window, text = 'Ventricular Egram', font = 24, command = lambda: EGRAM_Plot(0))
     ventricular_option.place(relx = 0.50, rely = 0.725, relwidth = 0.30, relheight = 0.05, anchor = 'n')
 
-    atrial_option = tk.Button(pacing_modes_window, text = 'Atrial Egram', font = 24)
+    atrial_option = tk.Button(pacing_modes_window, text = 'Atrial Egram', font = 24, command = lambda: EGRAM_Plot(1))
     atrial_option.place(relx = 0.50, rely = 0.825, relwidth = 0.30, relheight = 0.05, anchor = 'n')
 
-    both_option = tk.Button(pacing_modes_window, text = 'Atrial & Ventricular Egram', font = 24)
+    both_option = tk.Button(pacing_modes_window, text = 'Atrial & Ventricular Egram', font = 24, command = lambda: EGRAM_Plot(2))
     both_option.place(relx = 0.50, rely = 0.925, relwidth = 0.30, relheight = 0.05, anchor = 'n')
     
     global DCM_status_val
