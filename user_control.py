@@ -80,7 +80,7 @@ class User:
             "activitiy_threshold: %d\n"
             "activity_reaction_time: %d\n"
             "activity_response_factor: %d\n"
-            "activity_response_time: %d\n"
+            "activity_recovery_time: %d\n"
             % (
                 self.username,
                 self.password,
@@ -100,7 +100,7 @@ class User:
                 self.activitiy_threshold,
                 self.activity_reaction_time,
                 self.activity_response_factor,
-                self.activity_response_time
+                self.activity_recovery_time
             )
         )
         f.close()
@@ -157,7 +157,7 @@ def getUserData():                             # necessary function to authorize
             activitiy_threshold = None
             activity_reaction_time = None
             activity_response_factor = None
-            activity_response_time = None
+            activity_recovery_time = None
 
             f = open(file_directory, "r")                        # read data from text files and store them
             for line in f:
@@ -193,8 +193,8 @@ def getUserData():                             # necessary function to authorize
                     activity_reaction_time = line.split(":")[-1].strip()
                 elif "activity_response_factor: " in line:
                     activity_response_factor = line.split(":")[-1].strip()
-                elif "activity_response_time: " in line:
-                    activity_response_time = line.split(":")[-1].strip()
+                elif "activity_recovery_time: " in line:
+                    activity_recovery_time = line.split(":")[-1].strip()
                 
             
             oldUser = User(username, password)
@@ -215,7 +215,7 @@ def getUserData():                             # necessary function to authorize
                 "activitiy_threshold",
                 "activity_reaction_time",
                 "activity_response_factor",
-                "activity_response_time"
+                "activity_recovery_time"
             ],
             [
                 lower_rate,
@@ -234,7 +234,7 @@ def getUserData():                             # necessary function to authorize
                 activitiy_threshold,
                 activity_reaction_time,
                 activity_response_factor,
-                activity_response_time
+                activity_recovery_time
                 ])
             userObjects.append(oldUser)
 
