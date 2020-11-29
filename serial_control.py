@@ -7,14 +7,14 @@ baudRate = 115200
 
 data_dictionary = {
     "data_mode": 0,                     # B  
-    "pace_mode": 30,                     # B  
-    "lower_rate": 30,                    # h 
+    "pace_mode": 30,                    # B  
+    "lower_rate": 30,                   # h 
     "atrial_amplitude": 5,              # f 
     "ventricular_amplitude": 5,         # f 
     "atrial_pulse_width": 1,            # d 
     "ventricular_pulse_width": 1,       # d  
-    "ARP": 150,                           # h 
-    "VRP": 150,                           # h                  
+    "ARP": 150,                         # h 
+    "VRP": 150,                         # h                  
     "rate_smooth": 1,                   # d 
     "av_delay": 150,                    # h   
     "atrial_sensitivity": 3,            # B  
@@ -22,8 +22,8 @@ data_dictionary = {
     "max_sensor_rate": 120,             # h  
     "activitiy_threshold": 2,           # h  
     "activity_reaction_time": 30,       # h  
-    "activity_response_factor": 4,     # h  
-    "activity_recovery_time": 30       # h  
+    "activity_response_factor": 4,      # h  
+    "activity_recovery_time": 30        # h  
 }
 
 def set_data(parameters, values):
@@ -41,10 +41,11 @@ def set_data(parameters, values):
 
 def serial_send(parameters, values):
     data_array = set_data(parameters, values)
+    print(data_array)
     with serial.Serial(port = deviceName, baudrate = baudRate) as device:
         packet = struct.pack("<BBhffddhhdhBBhhhhh",*data_array)
         device.write(packet)
-        # run = 1
+        run = 1
         # if (data_array[0]):
         #     for item in range(3):
         #         received = device.read(16)

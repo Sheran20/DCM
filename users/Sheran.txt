@@ -1,7 +1,7 @@
 username: Sheran
 password: 123
-lower_rate: 60
-upper_rate: 100
+lower_rate: 50
+upper_rate: 50
 atrial_amplitude: 5.0
 atrial_pulse_width: 1.0
 ventricular_amplitude: 5.0
@@ -9,11 +9,11 @@ ventricular_pulse_width: 1.0
 VRP: None
 ARP: None
 rate_smooth: 0
-av_delay: 0
+av_delay: 90
 atrial_sensitivity: 0
 ventricular_sensitivity: 0
-max_sensor_rate: 0
-activitiy_threshold: 0
-activity_reaction_time: 0
-activity_response_factor: 0
-activity_response_time: 0
+max_sensor_rate: 120
+activitiy_threshold: 5
+activity_reaction_time: 50
+activity_response_factor: 5
+activity_recovery_time: 500

@@ -364,10 +364,8 @@ def DOOR_Pace(lowerRate, upperRate, maxSensorRate, fixedAVDelay, atrialAmplitude
         label['text'] = 'Please input an Atrial Pulse Width between 0.1ms and 1.9ms'
     elif(float(ventricularAmplitude) < 0.5 or float(ventricularAmplitude) > 7.0):
         label['text'] = 'Please input a Ventricular Amplitude between 0.5V and 7.0V'
-        return
     elif(float(ventricularPulseWidth) < 0.1 or float(ventricularPulseWidth) > 1.9):
         label['text'] = 'Input a Ventricular Pulse Width between 0.1ms and 1.9ms'
-        return
     elif(int(activityThreshold) < 0 or int(activityThreshold) > 6):
         label['text'] = 'Input one of the options: 0 = V-Low, 1 = Low, 2 = Med-Low, 3 = Med, 4 = Med-High, 5 = High, 6 = V-High'
     elif(int(reactionTime) < 10 or int(reactionTime) > 50):
@@ -381,10 +379,10 @@ def DOOR_Pace(lowerRate, upperRate, maxSensorRate, fixedAVDelay, atrialAmplitude
         label['text'] = 'Successfully sent parameters'
         # update user
         current_user.userUpdate(
-            ["lower_rate", "upper_rate","atrial_amplitude", "atrial_pulse_width", "ventricular_amplitude", "ventricular_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"], 
+            ["lower_rate", "upper_rate", "max_sensor_rate", "av_delay", "atrial_amplitude", "atrial_pulse_width", "ventricular_amplitude", "ventricular_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"], 
             [lowerRate, upperRate, maxSensorRate, fixedAVDelay, atrialAmplitude, atrialPulseWidth, ventricularAmplitude, ventricularPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime])
         # send data to pacemaker 
-        serial_send(["data_mode", "pace_mode", "lower_rate", "atrial_amplitude", "atrial_pulse_width", "ventricular_amplitude", "ventricular_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"],
+        serial_send(["data_mode", "pace_mode", "lower_rate", "max_sensor_rate", "av_delay", "atrial_amplitude", "atrial_pulse_width", "ventricular_amplitude", "ventricular_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"],
         [dataMode, paceMode, lowerRate, maxSensorRate, fixedAVDelay, atrialAmplitude, atrialPulseWidth, ventricularAmplitude, ventricularPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime])
 
 # Receiving Pacemaker ID and connection status
@@ -954,7 +952,7 @@ def DOOR_window():
     pace_now_button = tk.Button(DOOR_window, text = "Pace Now", font = 96, command = lambda: DOOR_Pace(int(lower_rate_limit.get()), int(upper_rate_limit.get()), int(maxSensorRate.get()), int(fixed_AV_delay.get()), float(atrial_amplitude.get()), float(ventricular_amplitude.get()), float(atrial_pules_width.get()), float(ventricular_pulse_width.get()), int(activity_threshold.get()), int(recation_time.get()), int(response_factor.get()), int(recovery_time.get()), error_label))
     pace_now_button.place(relx = 0.5, rely = 0.90, relwidth = 0.40, relheight = 0.10, anchor = 'n')
 
-# pacing_modes_window
+
 # pacing_modes_window
 def pacing_modes_window():
     pacing_modes_window = tk.Toplevel(root, height = HEIGHT, width = WIDTH)

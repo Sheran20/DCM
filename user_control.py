@@ -24,7 +24,7 @@ class User:
         self.activitiy_threshold = 0
         self.activity_reaction_time = 0
         self.activity_response_factor = 0
-        self.activity_response_time = 0
+        self.activity_recovery_time = 0
         self.file_directory = os.getcwd() + "\\users" +"\\" + username + ".txt"
         self.userData = [
             "username",
@@ -45,7 +45,7 @@ class User:
             "activitiy_threshold",
             "activity_reaction_time",
             "activity_response_factor",
-            "activity_response_time"
+            "activity_recovery_time"
             ]
 
     # getters
@@ -115,6 +115,7 @@ class User:
         for field in fields:
             if field not in self.userData:                                  #check if the specified field exists
                 print("Field does not exist")
+                print(field)
                 return
             else:
                 j = self.userData.index(field)
