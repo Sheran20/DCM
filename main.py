@@ -1,7 +1,7 @@
 import tkinter as tk
 import os
 from user_control import User, getUserData, userObjects
-from serial_control import set_data, serial_send, current_pacemakerID, DCM_status_val, serial_recieve_av, serial_recieve_v, serial_recieve_a
+from serial_control import set_data, serial_send, serial_recieve_av, serial_recieve_v, serial_recieve_a, DCM_Status
 
 ######### Environment Variables ##########
 HEIGHT = 700
@@ -986,6 +986,9 @@ def DOOR_window():
 
 # pacing_modes_window
 def pacing_modes_window():
+
+    DCM_status_val, current_pacemakerID = DCM_Status()
+
     pacing_modes_window = tk.Toplevel(root, height = HEIGHT, width = WIDTH)
     pacing_modes_window.configure(background = '#bce6eb')
 
@@ -1044,8 +1047,6 @@ def pacing_modes_window():
 
     both_option = tk.Button(pacing_modes_window, text = 'Atrial & Ventricular Egram', font = 24, command = lambda: EGRAM_Plot(2))
     both_option.place(relx = 0.50, rely = 0.925, relwidth = 0.30, relheight = 0.05, anchor = 'n')
-    
-    global DCM_status_val
 
     if(DCM_status_val == 1):
         DCM_status['bg'] = '#7BFF33'
