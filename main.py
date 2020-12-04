@@ -110,32 +110,38 @@ def VOO_Pace(lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth, 
             [paceMode, lowerRate, ventricularAmplitude, ventricularPulseWidth])
 
 # AAI Pacing Functionality
-def AAI_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, ARP, label):
+def AAI_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, atrialSensitivity, rateSmoothing, hysteresis, ARP, label):
     paceMode = 2
     if(int(lowerRate) < 30 or int(lowerRate) > 175 ):
         label['text'] = 'Please input a Lower Rate between 30ppm and 175ppm'
     elif(int(upperRate) < 50 or int(upperRate) > 175):
         label['text'] = 'Please input an Upper Rate between 50ppm and 175ppm'
     elif(float(atrialAmplitude) < 0.1 or float(atrialAmplitude) > 5.0):
-        label['text'] = 'Please input a Atrial Amplitude between 0.1V and 5.0V'
+        label['text'] = 'Please input a Ventricular Amplitude between 0.1V and 5.0V'
     elif(float(atrialPulseWidth) < 1 or float(atrialPulseWidth) > 30):
-        label['text'] = 'Please input an Atrial Pulse Width between 1ms and 30ms'
-    elif(int(ARP) < 100 or int(ARP) > 500):
-        label['text'] = 'Please input an ARP between 150ms and 500ms'
+        label['text'] = 'Please input a Ventricular Pulse Width between 1ms and 30msms'
+    elif(int(ARP) < 150 or int(ARP) > 500):
+        label['text'] = 'Please input a VPR value between 150ms and 500ms'
+    elif(float(atrialSensitivity) < 0.0 or float(atrialSensitivity) > 5.0):
+        label['text'] = 'Please input a Ventricular Sensitivity between 0.0V and 5.0V'
+    elif(int(rateSmoothing) > 21 or int(rateSmoothing) < 0 or int(rateSmoothing) < 0 or int(rateSmoothing) % 3 != 0):
+        label['text'] = 'Please input a Rate Smoothing value of 0, 3, 6, 9, 12, 15, 18, 21, or 25%'
+    elif(int(hysteresis) < 200 or int(hysteresis) > 500):
+        label['text'] = 'Please input a Hysteresis value between 200ms and 500ms'
     else:
-        print(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, ARP)
+        print(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, ARP, atrialSensitivity, rateSmoothing, hysteresis)
         label['text'] = 'Successfully sent parameters'
         # update user
         current_user.userUpdate(
-            ["lower_rate", "upper_rate", "atrial_amplitude", "atrial_pulse_width", "ARP"], 
-            [lowerRate, upperRate, atrialAmplitude, atrialPulseWidth, ARP])
+            ["lower_rate", "upper_rate", "atrial_amplitude", "atrial_pulse_width", "ARP", "atrial_sensitivity", "rate_smooth"], 
+            [lowerRate, upperRate, atrialAmplitude, atrialPulseWidth, ARP, atrialSensitivity, rateSmoothing])
         # send data to pacemaker
         serial_send(
-            ["pace_mode", "lower_rate", "atrial_amplitude", "atrial_pulse_width", "ARP"],
-            [paceMode, lowerRate, atrialAmplitude, atrialPulseWidth, ARP])
+            ["pace_mode", "lower_rate", "atrial_amplitude", "atrial_pulse_width", "ARP", "atrial_sensitivity", "rate_smooth"],
+            [paceMode, lowerRate, atrialAmplitude, atrialPulseWidth, ARP, atrialSensitivity, rateSmoothing])
 
 # VVI Pacing Functionality
-def VVI_Pace(lowerRate, upperRate, ventricularPulseWidth, ventricularAmplitude, VRP, label):
+def VVI_Pace(lowerRate, upperRate, ventricularPulseWidth, ventricularAmplitude, ventricularSensitivity, rateSmoothing, hysteresis, VRP, label):
     paceMode = 3
     if(int(lowerRate) < 30 or int(lowerRate) > 175 ):
         label['text'] = 'Please input a Lower Rate between 30ppm and 175ppm'
@@ -147,17 +153,23 @@ def VVI_Pace(lowerRate, upperRate, ventricularPulseWidth, ventricularAmplitude, 
         label['text'] = 'Please input a Ventricular Pulse Width between 1ms and 30msms'
     elif(int(VRP) < 150 or int(VRP) > 500):
         label['text'] = 'Please input a VPR value between 150ms and 500ms'
+    elif(float(ventricularSensitivity) < 0.0 or float(ventricularSensitivity) > 5.0):
+        label['text'] = 'Please input a Ventricular Sensitivity between 0.0V and 5.0V'
+    elif(int(rateSmoothing) > 21 or int(rateSmoothing) < 0 or int(rateSmoothing) < 0 or int(rateSmoothing) % 3 != 0):
+        label['text'] = 'Please input a Rate Smoothing value of 0, 3, 6, 9, 12, 15, 18, 21, or 25%'
+    elif(int(hysteresis) < 200 or int(hysteresis) > 500):
+        label['text'] = 'Please input a Hysteresis value between 200ms and 500ms'
     else:
-        print(lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth, VRP)
+        print(lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth, VRP, ventricularSensitivity, rateSmoothing, hysteresis)
         label['text'] = 'Successfully sent parameters'
         # update user
         current_user.userUpdate(
-            ["lower_rate", "upper_rate", "ventricular_amplitude", "ventricular_pulse_width", "VRP"], 
-            [lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth, VRP])
+            ["lower_rate", "upper_rate", "ventricular_amplitude", "ventricular_pulse_width", "VRP", "ventricular_sensitivity", "rate_smooth"], 
+            [lowerRate, upperRate, ventricularAmplitude, ventricularPulseWidth, VRP, ventricularSensitivity, rateSmoothing])
         # send data to pacemaker
         serial_send(
-            ["pace_mode", "lower_rate", "ventricular_amplitude", "ventricular_pulse_width", "VRP"],
-            [paceMode, lowerRate, ventricularAmplitude, ventricularPulseWidth, VRP])
+            ["pace_mode", "lower_rate", "ventricular_amplitude", "ventricular_pulse_width", "VRP", "ventricular_sensitivity", "rate_smooth"],
+            [paceMode, lowerRate, ventricularAmplitude, ventricularPulseWidth, VRP, ventricularSensitivity, rateSmoothing])
 
 #DOO Pacing Functionality 
 def DOO_Pace(lowerRate, upperRate, atrialAmplitude, ventricularAmplitude, atrialPulseWidth, ventricularPulseWidth, label):
@@ -167,7 +179,7 @@ def DOO_Pace(lowerRate, upperRate, atrialAmplitude, ventricularAmplitude, atrial
     elif(int(upperRate) < 50 or int(upperRate) > 175):
         label['text'] = 'Please input an Upper Rate between 50ppm and 175ppm'
     elif(float(atrialAmplitude) < 0.1 or float(atrialAmplitude) > 5.0):
-        label['text'] = 'Please input an Atrial Amplitude between 0.5V and'
+        label['text'] = 'Please input an Atrial Amplitude between 0.1V and 5.0V'
     elif(float(atrialPulseWidth) < 1 or float(atrialPulseWidth) > 30):
         label['text'] = 'Please input an Atrial Pulse Width between 1ms and 30ms'
     elif(float(ventricularAmplitude) < 0.1 or float(ventricularAmplitude) > 5.0):
@@ -269,8 +281,8 @@ def AAIR_Pace(lowerRate, upperRate, maxSensorRate, atrialAmplitude, atrialPulseW
         return
     elif(float(atrialSensitivity) < 0.0 or atrialSensitivity > 5.0):
         label['text'] = 'Please input a Ventricular Sensitivty between 0.0V and 5.0V'
-    elif(float(int(rateSmoothing) > 21 or rateSmoothing) % 3 != 0):
-        label['text'] = 'Please input a Rate Smoothing value of 0, 3, 6, 9, 12, 15, 18, or 21'
+    elif(float(int(rateSmoothing) > 21 or int(rateSmoothing) < 0 or rateSmoothing) % 3 != 0):
+        label['text'] = 'Please input a Rate Smoothing value of 0, 3, 6, 9, 12, 15, 18, 21, or 25%'
     elif(int(hysteresis) < 200 or int(hysteresis) > 500):
         label['text'] = 'Please input a Hysteresis value between 200ms and 500ms'
         return
@@ -313,8 +325,8 @@ def VVIR_Pace(lowerRate, upperRate, maxSensorRate, ventricularAmplitude, ventric
         return
     elif(float(ventricularSensitivity) < 0.0 or float(ventricularSensitivity) > 5.0):
         label['text'] = 'Please input a Ventricular Sensitivity between 0.0V and 5.0V'
-    elif(float(int(rateSmoothing) > 21 or rateSmoothing) % 3 != 0):
-        label['text'] = 'Please input a Rate Smoothing value of 0, 3, 6, 9, 12, 15, 18, or 21'
+    elif(float(int(rateSmoothing) > 21 or int(rateSmoothing) < 0 or rateSmoothing) % 3 != 0):
+        label['text'] = 'Please input a Rate Smoothing value of 0, 3, 6, 9, 12, 15, 18, 21, or 25%'
     elif(int(hysteresis) < 200 or int(hysteresis) > 500):
         label['text'] = 'Please input a Hysteresis value between 200ms and 500ms'
         return
@@ -375,6 +387,7 @@ def DOOR_Pace(lowerRate, upperRate, maxSensorRate, fixedAVDelay, atrialAmplitude
         serial_send(["pace_mode", "lower_rate", "max_sensor_rate", "av_delay", "atrial_amplitude", "atrial_pulse_width", "ventricular_amplitude", "ventricular_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"],
         [paceMode, lowerRate, maxSensorRate, fixedAVDelay, atrialAmplitude, atrialPulseWidth, ventricularAmplitude, ventricularPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime])
 
+#EGRAM PLOT
 def EGRAM_Plot(button):
     if(button == 0):
         serial_recieve_v()
@@ -444,7 +457,7 @@ def VOO_window():
     
     ventricular_amplitude = tk.Entry(VOO_window)
     ventricular_amplitude.place(relx = 0.50, rely = 0.35, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    ventricular_amplitude_label = tk.Label(VOO_window, text = 'Ventricular Amplitude (500mv - 5000mv)', bg = '#bce6eb')
+    ventricular_amplitude_label = tk.Label(VOO_window, text = 'Ventricular Amplitude (0.1V - 5V)', bg = '#bce6eb')
     ventricular_amplitude_label.place(relx = 0.50, rely = 0.39, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     ventricular_pulse_width = tk.Entry(VOO_window)
@@ -476,36 +489,51 @@ def AAI_window():
     lower_rate_label.place(relx = 0.50, rely = 0.09, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     upper_rate_limit = tk.Entry(AAI_window)
-    upper_rate_limit.place(relx = 0.50, rely = 0.20, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    upper_rate_limit.place(relx = 0.50, rely = 0.15, relwidth = 0.20, relheight = 0.040, anchor = 'n')
     upper_rate_label = tk.Label(AAI_window, text = 'Upper Rate Limit (50ppm - 175ppm)', bg = '#bce6eb')
-    upper_rate_label.place(relx = 0.50, rely = 0.24, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+    upper_rate_label.place(relx = 0.50, rely = 0.19, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     atrial_amplitude = tk.Entry(AAI_window)
-    atrial_amplitude.place(relx = 0.50, rely = 0.35, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    atrial_amplitude.place(relx = 0.50, rely = 0.25, relwidth = 0.20, relheight = 0.040, anchor = 'n')
     atrial_amplitude_label = tk.Label(AAI_window, text = 'Atrial Amplitude (0.1V - 5V)', bg = '#bce6eb')
-    atrial_amplitude_label.place(relx = 0.50, rely = 0.39, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+    atrial_amplitude_label.place(relx = 0.50, rely = 0.29, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     atrial_pulse_width = tk.Entry(AAI_window)
-    atrial_pulse_width.place(relx = 0.50, rely = 0.50, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    atrial_pulse_width.place(relx = 0.50, rely = 0.35, relwidth = 0.20, relheight = 0.040, anchor = 'n')
     atrial_pulse_width_label = tk.Label(AAI_window, text = 'Atrial Pulse Width (1ms - 30ms)', bg = '#bce6eb')
-    atrial_pulse_width_label.place(relx = 0.50, rely = 0.54, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+    atrial_pulse_width_label.place(relx = 0.50, rely = 0.39, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+
+    atrial_sensitivity = tk.Entry(AAI_window)
+    atrial_sensitivity.place(relx = 0.50, rely = 0.45, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    atrial_sensitivity_label = tk.Label(AAI_window, text = 'Atrial Sensitivity (0V - 5.0V)', bg = '#bce6eb')
+    atrial_sensitivity_label.place(relx = 0.50, rely = 0.49, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+
+    hysteresis = tk.Entry(AAI_window, text = "Hysteresis")
+    hysteresis.place(relx = 0.50, rely = 0.55, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    hysteresis_label = tk.Label(AAI_window, text = 'Hysteresis (200ms - 500ms)', bg = '#bce6eb')
+    hysteresis_label.place(relx = 0.50, rely = 0.59, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+
+    rate_smooth = tk.Entry(AAI_window)
+    rate_smooth.place(relx = 0.5, rely = 0.65, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    rate_smooth_label = tk.Label(AAI_window, text = 'Rate Smoothing (0,3,6,9,12,15,18,21,25)', bg = '#bce6eb')
+    rate_smooth_label.place(relx = 0.50, rely = 0.69, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     ARP = tk.Entry(AAI_window, text = "ARP")
-    ARP.place(relx = 0.50, rely = 0.65, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    ARP.place(relx = 0.50, rely = 0.75, relwidth = 0.20, relheight = 0.040, anchor = 'n')
     ARP_label = tk.Label(AAI_window, text = 'ARP (150ms - 500ms)', bg = '#bce6eb')
-    ARP_label.place(relx = 0.50, rely = 0.69, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+    ARP_label.place(relx = 0.50, rely = 0.79, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     error_label = tk.Label(AAI_window, text = '', bg = '#bce6eb')
-    error_label.place(relx = 0.5, rely = 0.75, relwidth = 0.5, relheight = 0.05, anchor = 'n')
+    error_label.place(relx = 0.5, rely = 0.85, relwidth = 0.5, relheight = 0.05, anchor = 'n')
 
-    if not lower_rate_limit.get() or upper_rate_limit.get() or not atrial_pulse_width.get() or not atrial_amplitude.get() or not ARP.get():
+    if not lower_rate_limit.get() or upper_rate_limit.get() or not atrial_pulse_width.get() or not atrial_amplitude.get() or not ARP.get() or not atrial_sensitivity or not hysteresis or not rate_smooth:
         error_label['text'] = 'Please ensure every input is filled in' 
 
     send_parameters_button = tk.Button(
         AAI_window, text = "Send Parameters", 
         font = 96, 
-        command = lambda: AAI_Pace(int(lower_rate_limit.get()), int(upper_rate_limit.get()), float(atrial_pulse_width.get()), float(atrial_amplitude.get()), int(ARP.get()), error_label))
-    send_parameters_button.place(relx = 0.5, rely = 0.80, relwidth = 0.40, relheight = 0.10, anchor = 'n')
+        command = lambda: AAI_Pace(int(lower_rate_limit.get()), int(upper_rate_limit.get()), float(atrial_pulse_width.get()), float(atrial_amplitude.get()), int(atrial_sensitivity.get()), float(rate_smooth.get()), int(hysteresis.get()), int(ARP.get()), error_label))
+    send_parameters_button.place(relx = 0.5, rely = 0.90, relwidth = 0.40, relheight = 0.10, anchor = 'n')
 
 #VVI_window
 def VVI_window():
@@ -519,36 +547,51 @@ def VVI_window():
     lower_rate_label.place(relx = 0.50, rely = 0.09, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     upper_rate_limit = tk.Entry(VVI_window)
-    upper_rate_limit.place(relx = 0.50, rely = 0.20, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    upper_rate_limit.place(relx = 0.50, rely = 0.15, relwidth = 0.20, relheight = 0.040, anchor = 'n')
     upper_rate_label = tk.Label(VVI_window, text = 'Upper Rate Limit (50ppm - 175ppm)', bg = '#bce6eb')
-    upper_rate_label.place(relx = 0.50, rely = 0.24, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+    upper_rate_label.place(relx = 0.50, rely = 0.19, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     ventricular_amplitude = tk.Entry(VVI_window)
-    ventricular_amplitude.place(relx = 0.50, rely = 0.35, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    ventricular_amplitude_label = tk.Label(VVI_window, text = 'Ventricular Amplitude (500mV - 5000mV)', bg = '#bce6eb')
-    ventricular_amplitude_label.place(relx = 0.50, rely = 0.39, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+    ventricular_amplitude.place(relx = 0.50, rely = 0.25, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    ventricular_amplitude_label = tk.Label(VVI_window, text = 'Ventricular Amplitude (0.1V - 5.0V)', bg = '#bce6eb')
+    ventricular_amplitude_label.place(relx = 0.50, rely = 0.29, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     ventricular_pulse_width = tk.Entry(VVI_window)
-    ventricular_pulse_width.place(relx = 0.50, rely = 0.50, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    ventricular_pulse_width.place(relx = 0.50, rely = 0.35, relwidth = 0.20, relheight = 0.040, anchor = 'n')
     ventricular_pulse_width_label = tk.Label(VVI_window, text = 'Ventricular Pulse Width (1ms - 30ms)', bg = '#bce6eb')
-    ventricular_pulse_width_label.place(relx = 0.50, rely = 0.54, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+    ventricular_pulse_width_label.place(relx = 0.50, rely = 0.39, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+
+    ventricular_sensitivity = tk.Entry(VVI_window)
+    ventricular_sensitivity.place(relx = 0.50, rely = 0.45, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    ventricular_sensitivity_label = tk.Label(VVI_window, text = 'Ventricular Sensitivity (0V - 5.0V)', bg = '#bce6eb')
+    ventricular_sensitivity_label.place(relx = 0.50, rely = 0.49, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+
+    hysteresis = tk.Entry(VVI_window, text = "Hysteresis")
+    hysteresis.place(relx = 0.50, rely = 0.55, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    hysteresis_label = tk.Label(VVI_window, text = 'Hysteresis (200ms - 500ms)', bg = '#bce6eb')
+    hysteresis_label.place(relx = 0.50, rely = 0.59, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+
+    rate_smooth = tk.Entry(VVI_window)
+    rate_smooth.place(relx = 0.5, rely = 0.65, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    rate_smooth_label = tk.Label(VVI_window, text = 'Rate Smoothing (0,3,6,9,12,15,18,21,25)', bg = '#bce6eb')
+    rate_smooth_label.place(relx = 0.50, rely = 0.69, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     VRP = tk.Entry(VVI_window, text = "VRP")
-    VRP.place(relx = 0.50, rely = 0.65, relwidth = 0.20, relheight = 0.040, anchor = 'n')
+    VRP.place(relx = 0.50, rely = 0.75, relwidth = 0.20, relheight = 0.040, anchor = 'n')
     VRP_label = tk.Label(VVI_window, text = 'VRP (150ms - 500ms)', bg = '#bce6eb')
-    VRP_label.place(relx = 0.50, rely = 0.69, relwidth = 0.30, relheight = 0.040, anchor = 'n')
+    VRP_label.place(relx = 0.50, rely = 0.79, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     error_label = tk.Label(VVI_window, text = '', bg = '#bce6eb')
-    error_label.place(relx = 0.5, rely = 0.75, relwidth = 0.5, relheight = 0.05, anchor = 'n')
+    error_label.place(relx = 0.5, rely = 0.85, relwidth = 0.5, relheight = 0.05, anchor = 'n')
 
-    if not lower_rate_limit.get() or not upper_rate_limit.get() or not ventricular_pulse_width.get() or not ventricular_amplitude.get() or not VRP.get():
+    if not lower_rate_limit.get() or not upper_rate_limit.get() or not ventricular_pulse_width.get() or not ventricular_amplitude.get() or not VRP.get() or not ventricular_sensitivity or not hysteresis or not rate_smooth:
         error_label['text'] = 'Please ensure every input is filled in' 
 
     send_parameters_button = tk.Button(
         VVI_window, text = "Send Parameters", 
         font = 96, 
-        command = lambda: VVI_Pace(int(lower_rate_limit.get()), int(upper_rate_limit.get()), float(ventricular_pulse_width.get()), float(ventricular_amplitude.get()), int(VRP.get()), error_label))
-    send_parameters_button.place(relx = 0.5, rely = 0.80, relwidth = 0.40, relheight = 0.10, anchor = 'n')
+        command = lambda: VVI_Pace(int(lower_rate_limit.get()), int(upper_rate_limit.get()), float(ventricular_pulse_width.get()), float(ventricular_amplitude.get()), int(ventricular_sensitivity.get()), float(rate_smooth.get()), int(hysteresis.get()), int(VRP.get()), error_label))
+    send_parameters_button.place(relx = 0.5, rely = 0.90, relwidth = 0.40, relheight = 0.10, anchor = 'n')
 
 ##DOO_window
 def DOO_window():
@@ -595,7 +638,7 @@ def DOO_window():
     pace_now_button = tk.Button(
         DOO_window, text = "Pace Now", 
         font = 96, 
-        command = lambda: DOO_Pace(int(lower_rate_limit.get()), int(upper_rate_limit.get()), float(atrial_pulse_width.get()), float(ventricular_amplitude.get()), float(atrial_amplitude.get()), float(ventricular_pulse_width.get()), error_label))
+        command = lambda: DOO_Pace(int(lower_rate_limit.get()), int(upper_rate_limit.get()), float(atrial_amplitude.get()),float(ventricular_amplitude.get()), float(atrial_pulse_width.get()), float(ventricular_pulse_width.get()), error_label))
     pace_now_button.place(relx = 0.5, rely = 0.80, relwidth = 0.40, relheight = 0.10, anchor = 'n')
 
 #AOOR_window
@@ -813,7 +856,7 @@ def AAIR_window():
 
     rate_smooth = tk.Entry(AAIR_window)
     rate_smooth.place(relx = 0.35, rely = 0.65, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    rate_smooth_label = tk.Label(AAIR_window, text = 'Rate Smoothing (3,6,9,12,15,18,21)', bg = '#bce6eb')
+    rate_smooth_label = tk.Label(AAIR_window, text = 'Rate Smoothing (0,3,6,9,12,15,18,21,25)', bg = '#bce6eb')
     rate_smooth_label.place(relx = 0.35, rely = 0.69, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     error_label = tk.Label(AAIR_window, text = '', bg = '#bce6eb')
@@ -896,7 +939,7 @@ def VVIR_window():
     '''Bottom'''
     rate_smooth = tk.Entry(VVIR_window)
     rate_smooth.place(relx = 0.5, rely = 0.65, relwidth = 0.20, relheight = 0.040, anchor = 'n')
-    rate_smooth_label = tk.Label(VVIR_window, text = 'Rate Smoothing (3,6,9,12,15,18,21)', bg = '#bce6eb')
+    rate_smooth_label = tk.Label(VVIR_window, text = 'Rate Smoothing (0,3,6,9,12,15,18,21,25)', bg = '#bce6eb')
     rate_smooth_label.place(relx = 0.50, rely = 0.69, relwidth = 0.30, relheight = 0.040, anchor = 'n')
 
     error_label = tk.Label(VVIR_window, text = '', bg = '#bce6eb')

@@ -22,8 +22,6 @@ def DCM_Status():
         current_pacemakerID = "No Device Connected"
         return DCM_status_val, current_pacemakerID
 
-
-
 data_dictionary = {
     "data_mode": 0,                     # B 
     "pace_mode": 0,                    # B  
@@ -57,7 +55,7 @@ def set_data(parameters, values):
 
 def serial_recieve_av():
     with serial.Serial(port = deviceName, baudrate = baudRate) as device:
-        packet = struct.pack("<BBhffddhhdhBBhhhhh",*[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
+        packet = struct.pack("<BBhffddhhdhBBhhhhh",*[1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0])
         device.write(packet)
 
         y_range = [0,1]
@@ -76,7 +74,7 @@ def serial_recieve_av():
             if len(received) == 17:
                 ventricular_signal = struct.unpack("d", received[0:8])[0]
                 atrial_signal = struct.unpack("d", received[8:16])[0]
-                print(ventricular_signal, atrial_signal)
+                # print(ventricular_signal, atrial_signal)
                 
             length = len(xs)
             if length > 100:
@@ -84,7 +82,7 @@ def serial_recieve_av():
                 ys.pop(0)
                 ys2.pop(0)
 
-            xs.append(i)
+            xs.append(i/20)
             ys.append(ventricular_signal)
             ys2.append(atrial_signal)
             
@@ -105,7 +103,7 @@ def serial_recieve_av():
 
 def serial_recieve_v():
     with serial.Serial(port = deviceName, baudrate = baudRate) as device:
-        packet = struct.pack("<BBhffddhhdhBBhhhhh",*[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
+        packet = struct.pack("<BBhffddhhdhBBhhhhh",*[1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0])
         device.write(packet)
 
         y_range = [0,1]
@@ -121,14 +119,14 @@ def serial_recieve_v():
             ventricular_signal = 0
             if len(received) == 17:
                 ventricular_signal = struct.unpack("d", received[0:8])[0]
-                print(ventricular_signal)
+                # print(ventricular_signal)
                 
             length = len(xs)
             if length > 100:
                 xs.pop(0)
                 ys.pop(0)
 
-            xs.append(i)
+            xs.append(i/20)
             ys.append(ventricular_signal)
             
             ax.clear()
@@ -147,7 +145,7 @@ def serial_recieve_v():
 
 def serial_recieve_a():
     with serial.Serial(port = deviceName, baudrate = baudRate) as device:
-        packet = struct.pack("<BBhffddhhdhBBhhhhh",*[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
+        packet = struct.pack("<BBhffddhhdhBBhhhhh",*[1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0])
         device.write(packet)
 
         y_range = [0,1]
@@ -163,7 +161,7 @@ def serial_recieve_a():
             atrial_signal = 0
             if len(received) == 17:
                 atrial_signal = struct.unpack("d", received[8:16])[0]
-                print(atrial_signal)
+                # print(atrial_signal)
                 
             length = len(xs)
             if length > 100:
