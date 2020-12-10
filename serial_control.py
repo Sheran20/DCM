@@ -55,7 +55,7 @@ def set_data(parameters, values):
 
 def serial_recieve_av():
     with serial.Serial(port = deviceName, baudrate = baudRate) as device:
-        packet = struct.pack("<BBhffddhhdhBBhhhhh",*[1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0])
+        packet = struct.pack("<BBhffddhhdhBBhhhhh",*[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
         device.write(packet)
 
         y_range = [0,1]
@@ -94,6 +94,7 @@ def serial_recieve_av():
             plt.title('Ventricular & Atrial Egram over Time')
             plt.xlabel('Time (s)')
             plt.ylabel('Votlage (V)')
+            plt.legend()
             plt.xticks(rotation=45, ha='right')
             plt.subplots_adjust(bottom=0.30)
             ax.set_ylim(y_range)
@@ -103,7 +104,7 @@ def serial_recieve_av():
 
 def serial_recieve_v():
     with serial.Serial(port = deviceName, baudrate = baudRate) as device:
-        packet = struct.pack("<BBhffddhhdhBBhhhhh",*[1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0])
+        packet = struct.pack("<BBhffddhhdhBBhhhhh",*[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
         device.write(packet)
 
         y_range = [0,1]
@@ -145,7 +146,7 @@ def serial_recieve_v():
 
 def serial_recieve_a():
     with serial.Serial(port = deviceName, baudrate = baudRate) as device:
-        packet = struct.pack("<BBhffddhhdhBBhhhhh",*[1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0])
+        packet = struct.pack("<BBhffddhhdhBBhhhhh",*[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
         device.write(packet)
 
         y_range = [0,1]

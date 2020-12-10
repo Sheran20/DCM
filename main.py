@@ -124,7 +124,7 @@ def AAI_Pace(lowerRate, upperRate, atrialPulseWidth, atrialAmplitude, atrialSens
         label['text'] = 'Please input a VPR value between 150ms and 500ms'
     elif(float(atrialSensitivity) < 0.0 or float(atrialSensitivity) > 5.0):
         label['text'] = 'Please input a Ventricular Sensitivity between 0.0V and 5.0V'
-    elif(int(rateSmoothing) > 21 or int(rateSmoothing) < 0 or int(rateSmoothing) < 0 or int(rateSmoothing) % 3 != 0):
+    elif(not(((rateSmoothing > 0 and rateSmoothing < 21) and (rateSmoothing % 3 == 0)) or rateSmoothing == 25)): # ()
         label['text'] = 'Please input a Rate Smoothing value of 0, 3, 6, 9, 12, 15, 18, 21, or 25%'
     elif(int(hysteresis) < 200 or int(hysteresis) > 500):
         label['text'] = 'Please input a Hysteresis value between 200ms and 500ms'
@@ -155,7 +155,7 @@ def VVI_Pace(lowerRate, upperRate, ventricularPulseWidth, ventricularAmplitude, 
         label['text'] = 'Please input a VPR value between 150ms and 500ms'
     elif(float(ventricularSensitivity) < 0.0 or float(ventricularSensitivity) > 5.0):
         label['text'] = 'Please input a Ventricular Sensitivity between 0.0V and 5.0V'
-    elif(int(rateSmoothing) > 21 or int(rateSmoothing) < 0 or int(rateSmoothing) < 0 or int(rateSmoothing) % 3 != 0):
+    elif(not(((rateSmoothing > 0 and rateSmoothing < 21) and (rateSmoothing % 3 == 0)) or rateSmoothing == 25)):
         label['text'] = 'Please input a Rate Smoothing value of 0, 3, 6, 9, 12, 15, 18, 21, or 25%'
     elif(int(hysteresis) < 200 or int(hysteresis) > 500):
         label['text'] = 'Please input a Hysteresis value between 200ms and 500ms'
@@ -224,11 +224,11 @@ def AOOR_Pace(lowerRate, upperRate, maxSensorRate, atrialAmplitude, atrialPulseW
         label['text'] = 'Successfully sent parameters'
         # update user
         current_user.userUpdate(
-            ["lower_rate", "upper_rate", "atrial_amplitude", "atrial_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"], 
+            ["lower_rate", "upper_rate", "max_sensor_rate", "atrial_amplitude", "atrial_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"], 
             [lowerRate, upperRate, maxSensorRate, atrialAmplitude, atrialPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime])
         # send data to pacemaker 
-        serial_send(["pace_mode", "lower_rate", "atrial_amplitude", "atrial_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"],
-        [paceMode, lowerRate, atrialAmplitude, atrialPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime])
+        serial_send(["pace_mode", "lower_rate", "max_sensor_rate", "atrial_amplitude", "atrial_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"],
+        [paceMode, lowerRate, maxSensorRate, atrialAmplitude, atrialPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime])
 
 #VOOR Pacing Functionality 
 def VOOR_Pace(lowerRate, upperRate, maxSensorRate, ventricularAmplitude, ventricularPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime, label):
@@ -256,11 +256,11 @@ def VOOR_Pace(lowerRate, upperRate, maxSensorRate, ventricularAmplitude, ventric
         label['text'] = 'Successfully sent parameters'
         # update user
         current_user.userUpdate(
-            ["lower_rate", "upper_rate", "ventricular_amplitude", "ventricular_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"], 
+            ["lower_rate", "upper_rate", "max_sensor_rate", "ventricular_amplitude", "ventricular_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"], 
             [lowerRate, upperRate, maxSensorRate, ventricularAmplitude, ventricularPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime])
         # send data to pacemaker 
-        serial_send(["pace_mode", "lower_rate", "atrial_amplitude", "atrial_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"],
-        [paceMode, lowerRate, ventricularAmplitude, ventricularPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime])
+        serial_send(["pace_mode", "lower_rate", "max_sensor_rate", "ventricular_amplitude", "ventricular_pulse_width", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"],
+        [paceMode, lowerRate, maxSensorRate, ventricularAmplitude, ventricularPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime])
 
 #AAIR Pacing Functionality 
 def AAIR_Pace(lowerRate, upperRate, maxSensorRate, atrialAmplitude, atrialPulseWidth, atrialSensitivity, ARP, PVARP, hysteresis, rateSmoothing, activityThreshold, reactionTime, responseFactor, recoveryTime, label):
@@ -281,7 +281,7 @@ def AAIR_Pace(lowerRate, upperRate, maxSensorRate, atrialAmplitude, atrialPulseW
         return
     elif(float(atrialSensitivity) < 0.0 or atrialSensitivity > 5.0):
         label['text'] = 'Please input a Ventricular Sensitivty between 0.0V and 5.0V'
-    elif(float(int(rateSmoothing) > 21 or int(rateSmoothing) < 0 or rateSmoothing) % 3 != 0):
+    elif(not(((rateSmoothing > 0 and rateSmoothing < 21) and (rateSmoothing % 3 == 0)) or rateSmoothing == 25)):
         label['text'] = 'Please input a Rate Smoothing value of 0, 3, 6, 9, 12, 15, 18, 21, or 25%'
     elif(int(hysteresis) < 200 or int(hysteresis) > 500):
         label['text'] = 'Please input a Hysteresis value between 200ms and 500ms'
@@ -299,11 +299,11 @@ def AAIR_Pace(lowerRate, upperRate, maxSensorRate, atrialAmplitude, atrialPulseW
         label['text'] = 'Successfully sent parameters'
         # update user
         current_user.userUpdate(
-            ["lower_rate", "upper_rate", "atrial_amplitude", "atrial_pulse_width", "ARP", "atrial_sensitivity", "rate_smooth", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"], 
+            ["lower_rate", "upper_rate", "max_sensor_rate", "atrial_amplitude", "atrial_pulse_width", "ARP", "atrial_sensitivity", "rate_smooth", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"], 
             [lowerRate, upperRate, maxSensorRate, atrialAmplitude, atrialPulseWidth, ARP, atrialSensitivity, rateSmoothing, activityThreshold, reactionTime, responseFactor, recoveryTime])
         # send data to pacemaker 
-        serial_send(["pace_mode", "lower_rate", "atrial_amplitude", "atrial_pulse_width", "ARP", "atrial_sensitivity", "rate_smooth", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"],
-        [paceMode, lowerRate, atrialAmplitude, atrialPulseWidth, ARP, atrialSensitivity, rateSmoothing, activityThreshold, reactionTime, responseFactor, recoveryTime])
+        serial_send(["pace_mode", "lower_rate", "max_sensor_rate", "atrial_amplitude", "atrial_pulse_width", "ARP", "atrial_sensitivity", "rate_smooth", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"],
+        [paceMode, lowerRate, maxSensorRate, atrialAmplitude, atrialPulseWidth, ARP, atrialSensitivity, rateSmoothing, activityThreshold, reactionTime, responseFactor, recoveryTime])
 
 #VVIR Pacing Functionality 
 def VVIR_Pace(lowerRate, upperRate, maxSensorRate, ventricularAmplitude, ventricularPulseWidth, ventricularSensitivity, VRP, hysteresis, rateSmoothing, activityThreshold, reactionTime, responseFactor, recoveryTime, label):
@@ -325,7 +325,7 @@ def VVIR_Pace(lowerRate, upperRate, maxSensorRate, ventricularAmplitude, ventric
         return
     elif(float(ventricularSensitivity) < 0.0 or float(ventricularSensitivity) > 5.0):
         label['text'] = 'Please input a Ventricular Sensitivity between 0.0V and 5.0V'
-    elif(float(int(rateSmoothing) > 21 or int(rateSmoothing) < 0 or rateSmoothing) % 3 != 0):
+    elif(not(((rateSmoothing > 0 and rateSmoothing < 21) and (rateSmoothing % 3 == 0)) or rateSmoothing == 25)):
         label['text'] = 'Please input a Rate Smoothing value of 0, 3, 6, 9, 12, 15, 18, 21, or 25%'
     elif(int(hysteresis) < 200 or int(hysteresis) > 500):
         label['text'] = 'Please input a Hysteresis value between 200ms and 500ms'
@@ -343,11 +343,11 @@ def VVIR_Pace(lowerRate, upperRate, maxSensorRate, ventricularAmplitude, ventric
         label['text'] = 'Successfully sent parameters'
         # update user
         current_user.userUpdate(
-            ["lower_rate", "upper_rate", "ventricular_amplitude", "ventricular_pulse_width", "VRP", "ventricular_sensitivity", "rate_smooth", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"], 
+            ["lower_rate", "upper_rate", "max_sensor_rate", "ventricular_amplitude", "ventricular_pulse_width", "VRP", "ventricular_sensitivity", "rate_smooth", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"], 
             [lowerRate, upperRate, maxSensorRate, ventricularAmplitude, ventricularPulseWidth, VRP, ventricularSensitivity, rateSmoothing, activityThreshold, reactionTime, responseFactor, recoveryTime])
         # send data to pacemaker 
-        serial_send(["pace_mode", "lower_rate", "ventricular_amplitude", "ventricular_pulse_width", "VRP", "ventricular_sensitivity", "rate_smooth", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"],
-        [paceMode, lowerRate, ventricularAmplitude, ventricularPulseWidth, VRP, ventricularSensitivity, rateSmoothing, activityThreshold, reactionTime, responseFactor, recoveryTime])
+        serial_send(["pace_mode", "lower_rate", "max_sensor_rate", "ventricular_amplitude", "ventricular_pulse_width", "VRP", "ventricular_sensitivity", "rate_smooth", "activitiy_threshold", "activity_reaction_time", "activity_response_factor", "activity_recovery_time"],
+        [paceMode, lowerRate, maxSensorRate, ventricularAmplitude, ventricularPulseWidth, VRP, ventricularSensitivity, rateSmoothing, activityThreshold, reactionTime, responseFactor, recoveryTime])
 
 #DOOR Pacing Functionality 
 def DOOR_Pace(lowerRate, upperRate, maxSensorRate, fixedAVDelay, atrialAmplitude, ventricularAmplitude, atrialPulseWidth, ventricularPulseWidth, activityThreshold, reactionTime, responseFactor, recoveryTime, label):
