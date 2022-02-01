@@ -1,3 +1,0 @@
-  paceMakerModel_group10.c
-egram_out.c
-
